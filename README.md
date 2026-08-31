@@ -19,7 +19,7 @@ chat.
 
 **1. The skills (Day 1):**
 ```bash
-t=$(mktemp -d) && curl -fsSLo $t/i.sh https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.0/install.sh && bash $t/i.sh && rm -rf $t
+t=$(mktemp -d) && curl -fsSLo $t/i.sh https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.1/install.sh && bash $t/i.sh && rm -rf $t
 ```
 All 39 skills land in `~/.claude/skills/`, staged then activated per skill. Existing
 same-name skills are never touched (`--force` replaces them, backing the old copies up
@@ -30,12 +30,12 @@ anything. Prefer to read code before running it? Clone this repo and run
 
 **2. The vault (Day 3, no rush):**
 ```bash
-t=$(mktemp -d) && curl -fsSLo $t/v.sh https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.0/install-vault.sh && bash $t/v.sh && rm -rf $t
+t=$(mktemp -d) && curl -fsSLo $t/v.sh https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.1/install-vault.sh && bash $t/v.sh && rm -rf $t
 ```
 Installs an Obsidian starter vault at `~/MyVault`. Want a different folder? Use this
 complete form instead (the target goes inside the same command):
 ```bash
-t=$(mktemp -d) && curl -fsSLo $t/v.sh https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.0/install-vault.sh && bash $t/v.sh ~/Uni && rm -rf $t
+t=$(mktemp -d) && curl -fsSLo $t/v.sh https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.1/install-vault.sh && bash $t/v.sh ~/Uni && rm -rf $t
 ```
 Open the vault in Obsidian, run `claude` inside it, and say
 **"onboard me into my vault"** — three questions by default, a deeper interview only

@@ -48,7 +48,8 @@ def get_metadata(url):
     fmt = sep.join(["%(title)s", "%(channel)s", "%(upload_date)s",
                     "%(duration)s", "%(id)s"])
     code, out, err = run([
-        "yt-dlp", "--no-warnings", "--skip-download", "--print", fmt, url,
+        "yt-dlp", "--no-warnings", "--no-playlist", "--skip-download",
+        "--print", fmt, url,
     ])
     if code != 0 or not out.strip():
         return None
@@ -88,27 +89,36 @@ def fmt_duration(raw):
 def download_vtt(url, tmpdir):
     """Download the best English caption track as VTT. Manual subs win over auto.
 
-    Returns the path to the .vtt file, or None if no English captions exist.
+    Two passes so preference is real, not lexical: manual English first; only if
+    that yields nothing, auto-generated English.
+
+    Returns (path, None) on success, (None, None) when no English captions exist,
+    or (None, stderr) when the download itself failed.
     """
     out_tmpl = os.path.join(tmpdir, "%(id)s.%(ext)s")
-    # Prefer manual English subtitles; fall back to auto-generated.
-    # en-orig is YouTube's "English (Original)" auto track. Order matters: yt-dlp
-    # picks the first language pattern that matches an available track.
-    sub_langs = "en,en-US,en-GB,en-orig"
-    code, out, err = run([
-        "yt-dlp", "--no-warnings", "--skip-download",
-        "--write-subs", "--write-auto-subs",
-        "--sub-langs", sub_langs,
-        "--sub-format", "vtt",
-        "-o", out_tmpl, url,
-    ])
-    vtts = [f for f in os.listdir(tmpdir) if f.endswith(".vtt")]
-    if not vtts:
-        return None
-    # Prefer a manual track if both manual and auto were written. yt-dlp names
-    # auto tracks the same way, so just take the first; manual is written when present.
-    vtts.sort()
-    return os.path.join(tmpdir, vtts[0])
+
+    def grab(auto):
+        args = ["yt-dlp", "--no-warnings", "--no-playlist", "--skip-download",
+                "--write-auto-subs" if auto else "--write-subs",
+                "--sub-langs", "en,en-US,en-GB" + (",en-orig" if auto else ""),
+                "--sub-format", "vtt",
+                "-o", out_tmpl, url]
+        code, out, err = run(args)
+        vtts = sorted(f for f in os.listdir(tmpdir) if f.endswith(".vtt"))
+        return code, err, vtts
+
+    code, err, vtts = grab(auto=False)          # pass 1: manual only
+    if vtts:
+        return os.path.join(tmpdir, vtts[0]), None
+    if code != 0:
+        return None, (err or "yt-dlp failed downloading subtitles").strip()[-400:]
+
+    code, err, vtts = grab(auto=True)           # pass 2: auto-generated fallback
+    if vtts:
+        return os.path.join(tmpdir, vtts[0]), None
+    if code != 0:
+        return None, (err or "yt-dlp failed downloading auto captions").strip()[-400:]
+    return None, None                            # clean run, genuinely no captions
 
 
 def vtt_to_lines(vtt_path):
@@ -188,15 +198,25 @@ def process(url, raw_dir, ingest_date):
                 "message": "could not fetch metadata (private/age-gated/invalid URL?)"}
 
     slug = slugify(meta["title"])
-    folder = os.path.join(raw_dir, f"{ingest_date}-{slug}")
+    # video ID in the folder name makes duplicate detection identity-based:
+    # same-title different videos never collide, and the same video is caught
+    # even when re-fetched on another day.
+    folder = os.path.join(raw_dir, f"{ingest_date}-{slug}-{meta['id']}")
 
-    if os.path.isdir(folder):
-        return {"url": url, "status": "skipped-duplicate",
-                "folder": folder, "title": meta["title"]}
+    if os.path.isdir(raw_dir):
+        for existing in os.listdir(raw_dir):
+            if existing.endswith(f"-{meta['id']}"):
+                return {"url": url, "status": "skipped-duplicate",
+                        "folder": os.path.join(raw_dir, existing),
+                        "title": meta["title"]}
 
     with tempfile.TemporaryDirectory() as tmp:
-        vtt = download_vtt(url, tmp)
+        vtt, dl_err = download_vtt(url, tmp)
         if vtt is None:
+            if dl_err:
+                return {"url": url, "status": "error",
+                        "title": meta["title"],
+                        "message": f"caption download failed: {dl_err}"}
             return {"url": url, "status": "no-captions",
                     "title": meta["title"],
                     "message": "no English caption track available"}

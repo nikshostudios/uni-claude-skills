@@ -35,6 +35,13 @@ one message. Ask once: "File it?" Adjust if they correct anything. Never write b
 this confirmation.
 
 ### 3. Write, in this order
+-1. **Resolve real paths first.** Canonical layout is `Home.md`, `Sessions/`,
+   `Calendar/Daily/`, `Efforts/Efforts.md` — but an adopted vault may differ. If
+   `.uni-vault-adopted` exists at the root, read the dashboard path from it and map
+   the equivalents (their daily-notes folder, their effort index) by looking, then
+   confirm the mapping with the user ONCE and record it inside `.uni-vault-adopted`
+   so future wraps don't re-ask. Never write a canonical path that doesn't exist in
+   their vault without asking.
 0. **Path hygiene (shared rule with /vault-onboard):** slugs are lowercase
    letters/digits/dashes, empty falls back to `session`; paths stay inside the vault;
    if `Sessions/YYYY-MM-DD-<topic-slug>.md` already exists, append `-2`, `-3`, … —

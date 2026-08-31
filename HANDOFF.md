@@ -26,10 +26,11 @@ skill interviews him to fill it.
 
 1. **Interview him, lightly.** Three questions, conversational: What are you studying
    this semester? What deadline worries you most? Coding anything right now?
-2. **Win once, immediately.** Take his scariest deadline and make visible progress on it
-   today using the most relevant skill (essay → writing pipeline; report →
-   assignment-creator; confusing topic → teach; group project → grill-me). One real win
-   beats any tour.
+2. **Win once, immediately — zero-dependency first.** Take his scariest deadline and
+   make visible progress today with a skill that needs nothing installed (confusing
+   topic → teach on pasted notes; essay → writing pipeline; plan → grill-me).
+   Dependency-heavy skills (assignment-creator, yt-*, watch) only after doctor.sh
+   confirms their tools. One real win beats any tour.
 3. **Show him the flight plan** (below) in three sentences: "There's a seven-day path.
    One small habit a day. Today was Day 1 — you're already on it."
 4. **Point him at the visual guide once** — the Martin's Odyssey page — and stop
@@ -44,7 +45,10 @@ skill interviews him to fill it.
 - **Day 2 — First orbit.** His most confusing topic taught properly. Default is
   `/teach` on pasted notes (zero dependencies); if yt-dlp is present, upgrade to
   `/yt-search` → `/yt-transcript` first. End with the quiz.
-- **Day 3 — The ship.** Vault install (`install-vault.sh`), open in Obsidian, then run
+- **Day 3 — The ship.** Vault install — the exact command (also on the visual guide,
+  https://nikshostudios.github.io/uni-claude-skills/):
+  `t=$(mktemp -d) && curl -fsSLo $t/v.sh https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.1/install-vault.sh && bash $t/v.sh && rm -rf $t`
+  Open the vault in Obsidian, then run
   **`vault-onboard`** — three skippable questions by default, the five-round deep
   interview only if he opts in. It imports Day-1 intake (if he consented to saving it),
   previews every write before writing, and ends with personalized skill

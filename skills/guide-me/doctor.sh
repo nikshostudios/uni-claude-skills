@@ -33,7 +33,8 @@ have python3;     report python3     "yt-search, yt-transcript, watch, assignmen
 have node;        report node        "assignment-creator (PDF), playwright-cli, impeccable" $? "install from nodejs.org or via brew"
 py fitz;          report pymupdf     "assignment-creator (DOCX/verify)" $? "pip install --user pymupdf"
 py docx;          report python-docx "assignment-creator (editable DOCX)" $? "pip install --user python-docx"
-node -e "require('playwright')" >/dev/null 2>&1; report playwright "assignment-creator (PDF render), playwright-cli" $? "npm i playwright && npx playwright install chromium"
+node -e "require('playwright')" >/dev/null 2>&1; report playwright "assignment-creator (PDF render)" $? "npm i playwright && npx playwright install chromium"
+node -e "require('playwright')" >/dev/null 2>&1 && npx --no-install playwright --version >/dev/null 2>&1; report pw-cli "playwright-cli skill (browser automation)" $? "npm i playwright && npx playwright install chromium (the skill drives npx playwright)"
 have git;         report git         "installer updates (--force re-run)" $? "xcode-select --install (macOS) / apt install git"
 
 echo

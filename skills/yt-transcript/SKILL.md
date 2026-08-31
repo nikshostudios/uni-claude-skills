@@ -1,6 +1,6 @@
 ---
 name: yt-transcript
-description: "Fetch a YouTube video's transcript from just a pasted link. Pulls the caption track via yt-dlp, files a clean timestamped transcript into ./transcripts/, then offers a study digest (summary + key concepts + quiz questions). Use whenever the user pastes a YouTube URL (youtube.com/watch, youtu.be, with or without surrounding text), says /yt-transcript, 'transcribe this YouTube link', 'get the transcript for this', or wants to study from a video. Trigger even if the user only drops a bare YouTube link with no instruction — a pasted YouTube link is the signal."
+description: "Fetch a YouTube video's transcript from just a pasted link. Pulls the caption track via yt-dlp, files a clean timestamped transcript into the vault's Raw/transcripts/ (or ./transcripts/ outside a vault), then offers a study digest (summary + key concepts + quiz questions). Use whenever the user pastes a YouTube URL (youtube.com/watch, youtu.be, with or without surrounding text), says /yt-transcript, 'transcribe this YouTube link', 'get the transcript for this', or wants to study from a video. Trigger even if the user only drops a bare YouTube link with no instruction — a pasted YouTube link is the signal."
 ---
 
 # Skill: yt-transcript
@@ -26,7 +26,8 @@ paste link(s)
    ▼
 fetch.py  ──► yt-dlp pulls metadata + English captions
    │           cleans VTT → [MM:SS] lines, dedupes rolling captions
-   │           writes ./transcripts/<today>-<slug>/transcript.md  (+ frontmatter)
+   │           writes <dest>/<today>-<slug>-<video-id>/transcript.md (+ frontmatter);
+   │           dest = Raw/transcripts inside a vault, ./transcripts elsewhere
    │           skips folders that already exist
    ▼
 read JSON summary  ──► per-URL status: filed / skipped-duplicate / no-captions / error

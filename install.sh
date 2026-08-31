@@ -3,7 +3,7 @@
 #
 # Recommended (download, inspect if you like, then run):
 #   t="$(mktemp -d)" && curl -fsSLo "$t/i.sh" \
-#     https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.0/install.sh \
+#     https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.1/install.sh \
 #     && bash "$t/i.sh" && rm -rf "$t"
 #
 # Flags:
@@ -13,7 +13,7 @@
 # Compatible with macOS's stock Bash 3.2.
 set -euo pipefail
 
-TAG="v1.0.0"
+TAG="v1.0.1"
 REPO="https://github.com/nikshostudios/uni-claude-skills"
 DEST="$HOME/.claude/skills"
 CRITICAL="guide-me"
@@ -97,7 +97,13 @@ install_one() { # explicit error handling — never relies on set -e inside
   local dir="$1" name; name="$(basename "$dir")"
   if [[ -e "$DEST/$name" || -L "$DEST/$name" ]]; then
     if [[ $FORCE -eq 0 ]]; then
-      echo "  skip    $name (already exists — --force replaces, with backup)"
+      if [[ -f "$DEST/$name/$MARKER" ]]; then
+        # verified kit-owned from an earlier run — carry into the rebuilt receipt
+        echo "  keep    $name (kit-owned, already installed)"
+        receipt_lines+=("$name")
+      else
+        echo "  skip    $name (already exists — --force replaces, with backup)"
+      fi
       skipped=$((skipped+1)); return 0
     fi
     if [[ -z "$BACKUP_DIR" ]]; then
@@ -111,8 +117,12 @@ install_one() { # explicit error handling — never relies on set -e inside
       echo "  replace $name (old copy → $BACKUP_DIR/$name)"
       replaced=$((replaced+1)); receipt_lines+=("$name")
     else
-      mv "$BACKUP_DIR/$name" "$DEST/$name" 2>/dev/null || true
-      echo "  FAILED  $name (restored previous copy)"; failed=$((failed+1)); return 1
+      if mv "$BACKUP_DIR/$name" "$DEST/$name" 2>/dev/null; then
+        echo "  FAILED  $name (restored previous copy)"
+      else
+        echo "  FAILED  $name (restore ALSO failed — your copy is safe at $BACKUP_DIR/$name)"
+      fi
+      failed=$((failed+1)); return 1
     fi
   else
     if stage_copy "$dir" "$name"; then

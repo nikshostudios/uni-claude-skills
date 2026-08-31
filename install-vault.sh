@@ -3,13 +3,13 @@
 #
 # Recommended:
 #   tmp="$(mktemp -d)" && curl -fsSLo "$tmp/install-vault.sh" \
-#     https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.0/install-vault.sh \
-#     && bash "$tmp/install-vault.sh" ~/MyVault; rm -rf "$tmp"
+#     https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.1/install-vault.sh \
+#     && bash "$tmp/install-vault.sh" ~/MyVault && rm -rf "$tmp"
 #
 # Usage: install-vault.sh [target-folder] [--local]
 set -euo pipefail
 
-TAG="v1.0.0"
+TAG="v1.0.1"
 REPO="https://github.com/nikshostudios/uni-claude-skills"
 TARGET="$HOME/MyVault"
 LOCAL=0
@@ -20,6 +20,7 @@ for a in "$@"; do
     *) TARGET="$a" ;;
   esac
 done
+TARGET="${TARGET%/}"; [[ -n "$TARGET" ]] || { echo "!!  bad target"; exit 1; }
 TMP="$(mktemp -d)"
 [[ -n "$TMP" && -d "$TMP" ]] || { echo "!!  mktemp failed"; exit 1; }
 STAGE=""
@@ -33,6 +34,8 @@ if [[ -L "$TARGET" ]]; then
   echo "!!  $TARGET is a symlink — refusing. Pick a real folder."; exit 1
 elif [[ -f "$TARGET" ]]; then
   echo "!!  $TARGET is a file — refusing. Pick a folder path."; exit 1
+elif [[ -d "$TARGET" ]] && ! ls -A "$TARGET" >/dev/null 2>&1; then
+  echo "!!  Cannot inspect $TARGET (permissions?) — refusing."; exit 1
 elif [[ -d "$TARGET" && -n "$(ls -A "$TARGET" 2>/dev/null)" ]]; then
   echo "!!  $TARGET already has content — not touching it."
   echo

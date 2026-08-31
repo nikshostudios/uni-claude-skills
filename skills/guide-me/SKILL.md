@@ -13,10 +13,11 @@ routing table, power-ups, integrity rules). This file covers the moves.
 
 1. **Three light questions**, conversational, all skippable: What are you studying this
    semester? What deadline worries you most? Coding anything right now?
-2. **One immediate win.** Take the scariest deadline and make visible progress today
-   with the most relevant skill. Prefer a dependency-free demo for the first one:
-   `/teach` on a confusing topic (paste lecture notes or just name the topic) is the
-   default first win — it needs nothing installed.
+2. **One immediate win — zero-dependency, non-negotiable.** The first demo MUST be a
+   skill that needs nothing installed: `/teach` on a confusing topic (paste lecture
+   notes or just name the topic), `/grill-me` on a plan, or the writing skills.
+   Dependency-heavy skills (assignment-creator, yt-*, watch) only enter the first
+   session after `doctor.sh` confirms their tools are present.
 3. **Show the flight plan in three sentences**: seven days, one new habit a day, today
    already counts. Never list all the skills.
 4. **Intake handoff (with consent).** Ask: "Save these answers locally so vault setup
@@ -60,11 +61,14 @@ Never overwrite anything. The starter assets are bundled INSIDE this skill at
    index). Show the list, ask before copying.
 3. Copy only approved missing pieces from the bundled `vault-starter/`. Never modify
    or move their existing notes.
-4. If they have no `CLAUDE.md`, offer the starter one; if they have one, offer to
-   append the starter's conventions section instead.
-5. Offer `vault-onboard` afterward in its **existing-vault mode** (it knows this
-   mode: no placeholders expected, additive only, asks only for fields their vault
-   doesn't already answer).
+4. If they have no `CLAUDE.md`, offer the starter one as a new file. If they already
+   have one, NEVER modify it — write the starter conventions to a separate
+   `CLAUDE-starter-conventions.md` beside it and let them merge manually.
+5. Write a `.uni-vault-adopted` marker file at the vault root recording the adoption
+   date and their dashboard note's path (their `Home.md` equivalent) — vault-onboard
+   and wrap read this to identify existing-vault mode and the real paths.
+6. Offer `vault-onboard` afterward in its **existing-vault mode** (additive only,
+   asks only for fields their vault doesn't already answer).
 
 ## Standing rules
 

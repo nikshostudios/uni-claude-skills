@@ -62,7 +62,8 @@ bash "$ROOT/install-vault.sh" "$V/absent" --local >/dev/null 2>&1 && [[ -f "$V/a
 mkdir -p "$V/empty"
 bash "$ROOT/install-vault.sh" "$V/empty" --local >/dev/null 2>&1 && [[ -f "$V/empty/Home.md" ]] \
   && ok "vault: empty dir installs (no nesting)" || bad "vault: empty dir"
-[[ -d "$V/empty/vault-starter" || -d "$V/empty/.vault-stage"* ]] && bad "vault: nested/stage debris" || ok "vault: no nesting or debris"
+if find "$V/empty" -maxdepth 1 -type d \( -name '.vault-stage-*' -o -name 'vault-starter' \) | grep -q .; then
+  bad "vault: nested/stage debris"; else ok "vault: no nesting or debris"; fi
 mkdir -p "$V/full"; echo "my note" > "$V/full/existing.md"; cp "$V/full/existing.md" "$T/existing.ref"
 out=$(bash "$ROOT/install-vault.sh" "$V/full" --local 2>&1 || true)
 echo "$out" | grep -qi "adopt" && ok "vault: nonempty → adoption message" || bad "vault: nonempty message"
@@ -74,16 +75,18 @@ ln -s "$V/absent" "$V/alink"
 bash "$ROOT/install-vault.sh" "$V/alink" --local >/dev/null 2>&1 && bad "vault: symlink accepted" || ok "vault: symlink rejected"
 bash "$ROOT/install-vault.sh" "$V/absent" --local >/dev/null 2>&1 && bad "vault: rerun overwrote" || ok "vault: rerun refused (adoption path)"
 
-# 8. hygiene greps: no personal data, no absolute owner paths in skills
-if grep -rIl "/Users/nikhilkumar\|Mangalayatan\|exceltech\|flaira\|Niksho" "$ROOT/skills" >/dev/null 2>&1; then
+# 8. hygiene greps: no personal data anywhere in the distributable tree
+if grep -rIl "/Users/nikhilkumar\|Mangalayatan\|exceltech\|flaira\|Niksho" \
+     "$ROOT/skills" "$ROOT/vault-starter" "$ROOT/install.sh" "$ROOT/install-vault.sh" \
+     "$ROOT/README.md" "$ROOT/HANDOFF.md" "$ROOT/CREDITS.md" "$ROOT/index.html" >/dev/null 2>&1; then
   bad "personal-data grep found matches"
-else ok "personal-data grep clean"; fi
+else ok "personal-data grep clean (repo-wide)"; fi
 
 # 9. --release: exercise the ACTUAL published path (run after tagging/pushing)
 if [[ "${1:-}" == "--release" ]]; then
   HR="$T/hr"; mkdir -p "$HR"
   tmp2="$T/dl"; mkdir -p "$tmp2"
-  if curl -fsSLo "$tmp2/i.sh" "https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.0/install.sh" \
+  if curl -fsSLo "$tmp2/i.sh" "https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.1/install.sh" \
      && HOME="$HR" bash "$tmp2/i.sh" >/dev/null 2>&1; then
     rn=$(ls "$HR/.claude/skills" 2>/dev/null | grep -vc '^\.' || true)
     [[ "$rn" -eq "$expected" ]] && ok "release: published command installs exactly $rn" || bad "release: count=$rn want=$expected"

@@ -21,16 +21,21 @@ and plain chat for open ones. NEVER dump all questions at once.
 - **Starter-vault mode** (default): the vault came from the kit's installer —
   `Home.md` contains `{{PLACEHOLDER}}` text. Run the interview and fill it.
 - **Existing-vault mode**: the user adopted the starter structure into a vault they
-  already had (no placeholders anywhere). Everything below applies with one change:
+  already had. Identified by the `.uni-vault-adopted` marker at the vault root
+  (written by guide-me's adoption recipe; it records their real dashboard path — use
+  that instead of assuming `Home.md`). Everything below applies with one change:
   be strictly ADDITIVE — read what their vault already answers (identity notes, course
-  folders, deadline lists), ask ONLY for genuinely missing fields, and write only new
-  files or clearly-appended sections. Never rewrite, rename, or reorganize anything
-  that existed before.
+  folders, deadline lists), ask ONLY for genuinely missing fields, and write ONLY new
+  files. Never rewrite, rename, append to, or reorganize anything that existed before;
+  if something belongs in one of their existing notes, write it as a new note and tell
+  them, so any merge is theirs to do.
 
 ## Before starting
 
-1. Confirm you're inside the vault (Home.md exists — with `{{PLACEHOLDER}}`s → starter
-   mode; without → existing-vault mode). If no vault in sight, ask where it lives.
+1. Identify the vault and mode: `.uni-vault-adopted` marker present → existing-vault
+   mode (dashboard path is inside the marker). No marker but `Home.md` contains
+   placeholder text → starter mode. Neither → ask where the vault lives and which
+   note is their dashboard.
 2. **Privacy preamble, always:** "Your answers get saved as plain files in this vault on
    your machine; what you type here is processed by Claude under your account's data
    settings. Skip any question you like. Never give me passwords, ID numbers, or
@@ -40,7 +45,9 @@ and plain chat for open ones. NEVER dump all questions at once.
    once imported.
 4. **Offer two depths:**
    - **Fast path (default, ~3 min):** three questions — name + university/program, ONE
-     active effort with its next real deadline, the most annoying recurring task. Build
+     active effort with its next real deadline (as an absolute `YYYY-MM-DD` date plus
+     timezone if it's an online submission; "unknown" is a valid answer and is
+     recorded as unknown, never estimated), the most annoying recurring task. Build
      the vault from just that; everything else stays honestly thin.
    - **Full interview (~10-15 min):** the five rounds below. Offer as "want to go
      deeper now or later?" — later is a fine answer; they can rerun this skill anytime

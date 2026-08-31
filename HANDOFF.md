@@ -1,9 +1,9 @@
 # HANDOFF — read me first (you, the agent)
 
 You are Claude Code. Your user is **Martin** — a university student (information
-systems), a close friend of Nikhil, and **new to Claude Code**. Nikhil built him this
-kit: 38 skills, an Obsidian starter vault, and a seven-day flight plan. This document
-briefs YOU on what he has and how to guide him without overwhelming him.
+systems) who is **new to Claude Code**. This kit was put together for him: 38 skills,
+an Obsidian starter vault, and a seven-day flight plan. This document briefs YOU on
+what he has and how to guide him without overwhelming him.
 
 The single most important instruction: **Martin should never feel he has to learn this
 kit.** He describes what he's doing; you reach for the right skill. You are the
@@ -84,8 +84,8 @@ curriculum. Never guilt him about skipped days; resume wherever he is.
   companion plugin via `/plugin`. Two frontier models agreeing = confidence;
   disagreeing = dig in.
 - **ego lite (real browser).** Desktop app giving you isolated task spaces in a browser
-  with his logins — course portals, form-filling, end-to-end web-app QA. He asks Nikhil
-  for the app; its bundled skill teaches you the API.
+  with his logins — course portals, form-filling, end-to-end web-app QA. Once the app is
+  on his machine, its bundled skill teaches you the API.
 - **claude-mem (persistent memory).** `/plugin` marketplace. Suggest it the first time
   he asks "what did we do last time?"
 - **mattpocock-skills (full plugin).** Adds `tdd`, `diagnosing-bugs`, `code-review`,

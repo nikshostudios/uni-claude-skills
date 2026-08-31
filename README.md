@@ -1,10 +1,10 @@
-# Martin's Odyssey — uni-claude-skills
+# Martin's Odyssey
 
 A full-stack Claude Code launch kit for university: **38 curated skills, an Obsidian
-life-vault starter, and a seven-day flight plan** — built for an info-systems student
-who codes and studies with Claude Code, paced so a beginner never feels overwhelmed.
+life-vault starter, and a seven-day flight plan**. Made for an info-systems student who
+codes and studies with Claude Code, paced so a beginner never feels overwhelmed.
 
-**Start here → [the visual guide](https://nikshostudios.github.io/uni-claude-skills/)** 🚀
+Start with **[the visual guide](https://nikshostudios.github.io/uni-claude-skills/)**.
 
 ## Install
 
@@ -15,13 +15,13 @@ curl -fsSL https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/mai
 All 38 skills land in `~/.claude/skills/`. Never overwrites existing skills
 (`--force` from a clone if you want that).
 
-**2. The vault (Day 3 — no rush):**
+**2. The vault (Day 3, no rush):**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/main/install-vault.sh | bash
 ```
 Installs an Obsidian starter vault at `~/MyVault` (pass another path as an argument).
-Open it in Obsidian, run `claude` inside it, and say **"onboard me into my vault"** —
-a ten-minute interview builds the vault around your actual life and ends with
+Open it in Obsidian, run `claude` inside it, and say **"onboard me into my vault"**.
+A ten-minute interview builds the vault around your actual life and ends with
 personalized skill recommendations.
 
 **Then, in Claude Code:**
@@ -55,7 +55,7 @@ One small habit a day. Full detail on the [visual guide](https://nikshostudios.g
 
 - **codex second opinion** — `npm i -g @openai/codex` + `codex login` + a codex plugin
   via `/plugin`. Cross-check hard bugs with a second frontier model.
-- **ego lite** — desktop app giving Claude a real logged-in browser (ask Nikhil).
+- **ego lite** — desktop app giving Claude a real logged-in browser via task spaces.
 - **claude-mem** — persistent memory across sessions, via `/plugin`.
 - **mattpocock-skills plugin** — `tdd`, `diagnosing-bugs`, `code-review`, more:
   [mattpocock/skills](https://github.com/mattpocock/skills).
@@ -91,5 +91,5 @@ Workflow skills (`grill-me`, `to-spec`, `to-tickets`, `triage`, `implement`,
 `wayfinder`, `writing-*`, `teach`, `ask-matt`…) originate from
 [Matt Pocock's skills](https://github.com/mattpocock/skills). `watch` comes from the
 [claude-video](https://github.com/bradautomates/claude-video) plugin. `humanizer` builds
-on Wikipedia's "Signs of AI writing" guide. Curated, adapted, and assembled by Nikhil —
-for Martin. 🚀
+on Wikipedia's "Signs of AI writing" guide. Curated and adapted from a working daily
+setup.

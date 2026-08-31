@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>uni-claude-skills — your Claude Code toolkit for university</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#0b101c;
+  --surface:#131a29;
+  --surface-2:#1a2334;
+  --text:#eef2fa;
+  --secondary:#a8b3c7;
+  --active:#57b6ff;
+  --active-ink:#041020;
+  --line:#2b3550;
+  --line-soft:rgba(150,170,205,.16);
+  --proof:#6fd6b8;
+  --risk:#ff7a6b;
+  --white-soft:rgba(238,242,250,.07);
+  --display:"Fraunces",Georgia,serif;
+  --body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--canvas)}
+body{
+  margin:0;min-width:320px;position:relative;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(87,182,255,.05), transparent 28%),
+    radial-gradient(circle at 50% 68%, rgba(59,141,255,.035), transparent 34%),
+    var(--canvas);
+  color:var(--text);
+  font-family:var(--body);font-size:16.5px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse at center, transparent 42%, rgba(2,5,12,.5) 100%)}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+.orb{position:fixed;z-index:0;pointer-events:none;border-radius:50%;filter:blur(90px);will-change:transform}
+.orb.a{width:60vw;height:60vw;top:-24vw;left:-18vw;
+  background:radial-gradient(circle, rgba(43,102,246,.5), rgba(43,102,246,.16) 55%, transparent 72%);
+  animation:drift-a 46s ease-in-out infinite alternate}
+.orb.b{width:54vw;height:54vw;bottom:-22vw;right:-16vw;
+  background:radial-gradient(circle, rgba(64,145,255,.42), rgba(64,145,255,.14) 55%, transparent 72%);
+  animation:drift-b 58s ease-in-out infinite alternate}
+@keyframes drift-a{to{transform:translate(9vw,7vh) scale(1.08)}}
+@keyframes drift-b{to{transform:translate(-8vw,-6vh) scale(1.06)}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+main{position:relative;z-index:1;width:min(980px, calc(100% - 48px));margin:0 auto;padding-bottom:160px}
+
+.masthead{display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:22px 0;border-bottom:1px solid var(--line-soft);
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--secondary)}
+.masthead b{color:var(--active);font-weight:500}
+
+.hero{padding:clamp(64px,9vw,110px) 0 30px;text-align:center}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--secondary)}
+.kicker b{color:var(--active);font-weight:500}
+h1{font-family:var(--display);font-weight:500;letter-spacing:-.02em;
+  font-size:clamp(38px,6vw,62px);line-height:1.08;margin:18px auto 20px;max-width:18ch}
+h1 em{font-style:normal;color:var(--active)}
+.lead{color:var(--secondary);max-width:62ch;margin:0 auto;font-size:17.5px}
+
+.install{margin:44px auto 0;max-width:760px;background:var(--surface);
+  border:1px solid var(--line);border-radius:20px;padding:26px 28px;text-align:left;
+  box-shadow:0 24px 60px -34px rgba(0,0,0,.95), inset 0 1px rgba(238,242,250,.03)}
+.install .kicker{display:block;margin-bottom:14px}
+.cmd{position:relative;background:#0a0f1a;border:1px solid var(--line);border-radius:3px;
+  padding:15px 108px 15px 16px;font-family:var(--mono);font-size:12.5px;color:var(--text);
+  overflow-x:auto;white-space:nowrap}
+.cmd .copy{position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--line);color:var(--secondary);
+  border-radius:2px;padding:7px 12px;cursor:pointer;transition:all .25s var(--ease)}
+.cmd .copy:hover{background:var(--active);border-color:var(--active);color:var(--active-ink)}
+.install .then{margin:16px 0 0;font-size:14px;color:var(--secondary)}
+.install .then code{font-family:var(--mono);font-size:12px;color:var(--active);background:rgba(87,182,255,.07);
+  padding:2px 6px;border-radius:2px}
+
+.fact-strip{margin:56px auto 0;display:flex;justify-content:center;gap:clamp(18px,4vw,44px);flex-wrap:wrap;
+  padding-bottom:22px;border-bottom:1px solid var(--line-soft);
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--secondary)}
+.fact-strip b{color:var(--active);font-weight:500}
+
+section{margin-top:clamp(72px,9vw,104px)}
+h2{font-family:var(--display);font-weight:500;letter-spacing:-.015em;
+  font-size:clamp(26px,3.6vw,36px);line-height:1.15;margin:14px 0 10px;max-width:28ch}
+.sec-note{color:var(--secondary);max-width:72ch;margin:0 0 30px;font-size:15.5px}
+
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.cards{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:3px;
+  padding:0;overflow:hidden;transition:border-color .3s var(--ease), transform .3s var(--ease)}
+.card:hover{border-color:rgba(87,182,255,.45)}
+.card button.head{all:unset;display:block;width:100%;cursor:pointer;padding:16px 18px;box-sizing:border-box}
+.card .name{font-family:var(--mono);font-size:12.5px;color:var(--active);letter-spacing:.02em}
+.card .what{margin-top:5px;font-size:14px;color:var(--secondary);line-height:1.5}
+.card .body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.card .body>div{overflow:hidden}
+.card.open .body{grid-template-rows:1fr}
+.card.open{border-color:rgba(87,182,255,.45);transform:translateY(-1px)}
+.card .inner{padding:0 18px 18px;border-top:1px dashed var(--line-soft);margin-top:2px;padding-top:14px}
+.say{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--secondary);margin:0 0 7px}
+.quote{background:rgba(87,182,255,.06);border-left:2px solid var(--active);border-radius:2px;
+  padding:10px 13px;font-size:13.5px;color:var(--text);font-style:italic}
+.card .extra{margin:12px 0 0;font-size:13.5px;color:var(--secondary)}
+
+.pipes{display:grid;gap:14px}
+.pipe{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px 26px;
+  box-shadow:0 24px 60px -34px rgba(0,0,0,.95), inset 0 1px rgba(238,242,250,.03)}
+.pipe .kicker{display:block;margin-bottom:12px}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.chip{font-family:var(--mono);font-size:12px;color:var(--text);background:var(--surface-2);
+  border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+.chip.hot{color:var(--active-ink);background:var(--active);border-color:var(--active);
+  box-shadow:0 7px 24px rgba(87,182,255,.28)}
+.arrow{color:var(--active);font-family:var(--mono);font-size:12px}
+.pipe p{margin:12px 0 0;font-size:14px;color:var(--secondary);max-width:76ch}
+
+.integrity{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px 30px;
+  box-shadow:0 24px 60px -34px rgba(0,0,0,.95), inset 0 1px rgba(238,242,250,.03)}
+.integrity h2{margin-top:6px}
+.integrity p{color:var(--secondary);font-size:15px;max-width:76ch}
+.integrity .good{color:var(--proof)}
+.integrity .bad{color:var(--risk)}
+
+footer{margin-top:clamp(72px,9vw,104px);padding-top:22px;border-top:1px solid var(--line-soft);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--secondary)}
+footer a{color:var(--active);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="orb a"></div><div class="orb b"></div>
+<main>
+
+<div class="masthead"><span><b>uni-claude-skills</b> · student toolkit</span><span>35 skills · one install</span></div>
+
+<div class="hero">
+  <span class="kicker">for <b>claude code</b> at university</span>
+  <h1>Your degree, with a <em>toolkit</em> behind it.</h1>
+  <p class="lead">Thirty-five battle-tested Claude Code skills, curated for an info-systems student:
+  study pipelines, essay craft, project discipline, and front-end polish. Install once —
+  then your agent knows when to use each one.</p>
+
+  <div class="install">
+    <span class="kicker">install — <b>one command</b></span>
+    <div class="cmd" id="cmd">curl -fsSL https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/main/install.sh | bash<button class="copy" onclick="copyCmd()">copy</button></div>
+    <p class="then">Then open Claude Code and say: <code>Read the HANDOFF.md from the uni-claude-skills repo and walk me through my new skills.</code> Your agent takes it from there — it will interview you about your semester and demo the most relevant skill on your real work.</p>
+  </div>
+
+  <div class="fact-strip">
+    <span><b>35</b> skills</span><span><b>5</b> clusters</span><span><b>3</b> ready pipelines</span><span><b>0</b> logins needed</span>
+  </div>
+</div>
+
+<section id="study">
+  <span class="kicker">cluster 01 — <b>study &amp; learning</b></span>
+  <h2>Learn it properly, faster.</h2>
+  <p class="sec-note">Click any card for the exact thing to say to Claude.</p>
+  <div class="cards">
+    <div class="card"><button class="head"><span class="name">/teach</span><p class="what">Claude teaches the concept like a tutor — with checks that you actually got it.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Teach me database normalization — I have a quiz on Friday."</div>
+      <p class="extra">Runs a real teaching loop: explain → example → you try → correct. Use before exams, after confusing lectures, or when a topic won't stick.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/yt-search</span><p class="what">Find the best tutorial video on any topic without opening YouTube.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Find me the best recent videos explaining REST APIs."</div>
+      <p class="extra">Returns a ranked list with views, channel size and dates. The views-to-subscribers ratio is a hidden-gem detector.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/yt-transcript</span><p class="what">Paste a YouTube link → clean transcript + study digest with quiz questions.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">(just paste the YouTube link — that's the whole trigger)</div>
+      <p class="extra">Files a timestamped transcript into ./transcripts/, then offers a TL;DR, key concepts with timestamps, and a 5-question recall quiz.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/wait-what · /zoom-out</span><p class="what">Confused? Force a re-explanation from a different angle, or get the big picture.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"wait-what" — when an explanation didn't land. "zoom-out" — when you're lost in code details.</div>
+      <p class="extra">Two tiny skills that fix the two classic stuck-states: bad explanation, missing context.</p></div></div></div></div>
+  </div>
+</section>
+
+<section id="writing">
+  <span class="kicker">cluster 02 — <b>writing</b></span>
+  <h2>Essays that sound like you.</h2>
+  <p class="sec-note">The writing pipeline builds essays from <em>your</em> thinking — and the cleanup skills strip the AI flavor from anything drafted.</p>
+  <div class="cards">
+    <div class="card"><button class="head"><span class="name">/writing-fragments → beats → shape</span><p class="what">Three-stage essay pipeline: mine your notes, build the arc, draft with you steering.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"I have an essay due on digital privacy and a pile of rough notes — run the writing pipeline."</div>
+      <p class="extra">Fragments finds your good raw material, beats arranges it into a journey, shape drafts paragraph-by-paragraph with your approval. The result is your essay, structured — not a generated one.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/unslop · /humanizer</span><p class="what">Strip AI-sounding phrasing from any text — quick pass or deep sweep.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Unslop this discussion post" · "Run humanizer on my report intro."</div>
+      <p class="extra">Humanizer is built on Wikipedia's signs-of-AI-writing guide: kills inflated symbolism, rule-of-three, em-dash overuse, filler. For editing your writing — not for disguising work that isn't yours.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/grill-me</span><p class="what">Claude interrogates your plan or thesis until the weak spots are gone.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Grill me on my capstone proposal before I pitch it to my professor."</div>
+      <p class="extra">Relentless, specific questioning. The gaps it finds are the ones your grader would have found. /grill-with-docs also records the decisions as docs.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/creativity</span><p class="what">Research-backed brainstorming that banks ideas and never repeats itself.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"I need a creative angle for my final-year project topic."</div>
+      <p class="extra">Researches real exemplars from far-apart domains and recombines them against your problem. Every idea is banked to ./_creativity/ so next session starts where this one ended.</p></div></div></div></div>
+  </div>
+</section>
+
+<section id="projects">
+  <span class="kicker">cluster 03 — <b>project workflow</b></span>
+  <h2>Group projects, under control.</h2>
+  <p class="sec-note">The discipline cluster: turn vague project ideas into specs, tickets, and finished work — and never lose a long session again.</p>
+  <div class="cards">
+    <div class="card"><button class="head"><span class="name">/to-spec · /to-tickets · /implement</span><p class="what">Conversation → written spec → ordered tickets → methodical execution.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"We've talked enough — to-spec this, then break it into tickets."</div>
+      <p class="extra">The core delivery pipeline. Specs stop group-project scope drift; tickets make work divisible among teammates; implement executes without wandering.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/checkpoint · /claude-handoff</span><p class="what">Long session degrading? Save state and continue fresh without losing anything.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Checkpoint this session" — then paste the output into a new session.</div>
+      <p class="extra">Learn these two early. Long Claude sessions degrade; checkpoint captures every decision so a fresh session picks up mid-stride.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/wayfinder · /graph · /triage</span><p class="what">Heavy machinery: oversized work, high-stakes tasks, and issue backlogs.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"This capstone is way bigger than one session — wayfinder it."</div>
+      <p class="extra">Wayfinder maps huge work as decision tickets. Graph structures a high-stakes task as a multi-agent workflow. Triage grinds through GitHub issues/PRs in a disciplined loop.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/ask-matt · /write-a-skill</span><p class="what">Not sure which flow fits? Ask the router. Outgrown the pack? Write your own.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"ask-matt: I have a messy idea and a deadline — which skill do I use?"</div>
+      <p class="extra">ask-matt routes you to the right workflow. write-a-skill teaches Claude to build new skills — your toolkit grows with your degree.</p></div></div></div></div>
+  </div>
+</section>
+
+<section id="coding">
+  <span class="kicker">cluster 04 — <b>coding &amp; design</b></span>
+  <h2>Projects that don't look like homework.</h2>
+  <p class="sec-note">Info-systems coursework ships web apps. These make yours look and read like products.</p>
+  <div class="cards">
+    <div class="card"><button class="head"><span class="name">/frontend-design · /impeccable</span><p class="what">Distinctive UI direction + the full design/audit/polish toolkit.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Build the dashboard for my project — read frontend-design first so it doesn't look templated."</div>
+      <p class="extra">frontend-design sets aesthetic direction; impeccable audits hierarchy, spacing, accessibility, motion. Demo-day difference-makers.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/ui-styling · /ui-ux-pro-max · /design-system</span><p class="what">Component building, a searchable style database, and design tokens.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Pick me a palette and font pairing for a fintech-feeling project" (ui-ux-pro-max).</div>
+      <p class="extra">ui-styling builds shadcn/Tailwind components; ui-ux-pro-max is a local database of styles, palettes and fonts; design-system keeps multi-page projects consistent.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/improve-codebase-architecture</span><p class="what">Architecture review of your project with a visual HTML report.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Review my project's architecture before I submit — give me the visual report."</div>
+      <p class="extra">Finds structure problems and improvement opportunities. Also: /setup-ts-deep-modules wires dependency-cruiser for clean TypeScript boundaries.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/playwright-cli</span><p class="what">Browser automation and web testing from the command line.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Write Playwright tests for my web app's signup flow."</div>
+      <p class="extra">Real end-to-end tests impress graders and catch demo-day bugs before the demo.</p></div></div></div></div>
+  </div>
+</section>
+
+<section id="documents">
+  <span class="kicker">cluster 05 — <b>documents</b></span>
+  <h2>Submissions that look the part.</h2>
+  <div class="cards">
+    <div class="card"><button class="head"><span class="name">/assignment-creator</span><p class="what">Brief → polished PDF/DOCX: cover page, dot-leader TOC, Gantt charts, shaded tables.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Here's my assignment brief [attach PDF] — build the submission document from my draft answers."</div>
+      <p class="extra">Maps every rubric line to a section so nothing is missed, renders Mermaid diagrams (WBS, Gantt, risk quadrants) as real vector graphics, and produces pixel-perfect PDF plus Word. Integrity rules are built in — it formats and structures work you own.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/to-questionnaire · /loop-me</span><p class="what">Blocked on someone else's decision? Turn it into their questionnaire.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"I can't decide the project scope without my professor — to-questionnaire it."</div>
+      <p class="extra">Produces the exact questions to send. loop-me interviews you about any workflow you wish were automated — then you build it together.</p></div></div></div></div>
+  </div>
+</section>
+
+<section id="pipelines">
+  <span class="kicker">the <b>pipelines</b></span>
+  <h2>Skills compose. Start here.</h2>
+  <div class="pipes">
+    <div class="pipe"><span class="kicker">study a topic</span>
+      <div class="chain"><span class="chip">/yt-search</span><span class="arrow">→</span><span class="chip">/yt-transcript</span><span class="arrow">→</span><span class="chip hot">/teach</span></div>
+      <p>Find the best video, pull its transcript and digest, then have the concept taught until it sticks. One evening, one topic, actually learned.</p></div>
+    <div class="pipe"><span class="kicker">write an essay</span>
+      <div class="chain"><span class="chip">/grill-me</span><span class="arrow">→</span><span class="chip">/writing-fragments</span><span class="arrow">→</span><span class="chip">/writing-beats</span><span class="arrow">→</span><span class="chip">/writing-shape</span><span class="arrow">→</span><span class="chip hot">/unslop</span></div>
+      <p>Stress-test the argument, mine your notes, build the arc, draft with you steering, then strip anything that sounds machine-made.</p></div>
+    <div class="pipe"><span class="kicker">ship a group project</span>
+      <div class="chain"><span class="chip">/grill-me</span><span class="arrow">→</span><span class="chip">/to-spec</span><span class="arrow">→</span><span class="chip">/to-tickets</span><span class="arrow">→</span><span class="chip">/implement</span><span class="arrow">→</span><span class="chip hot">/improve-codebase-architecture</span></div>
+      <p>Idea → spec → tickets your teammates can split → disciplined build → architecture review before submission.</p></div>
+  </div>
+</section>
+
+<section id="integrity">
+  <div class="integrity">
+    <span class="kicker">the <b>ground rule</b></span>
+    <h2>Tools for learning, not shortcuts past it.</h2>
+    <p><span class="good">This pack helps you</span> understand material, structure your thinking, polish your production, and manage projects like a professional.
+    <span class="bad">It will not help you</span> evade AI detectors, fabricate citations, or submit work you can't explain — assignment-creator refuses that by design.
+    If your university asks for AI-use disclosure, disclose. The point is graduating <em>smarter</em>, with a toolkit you'll still use at your first job.</p>
+  </div>
+</section>
+
+<footer>
+  <span>curated by nikhil · aug 2026</span>
+  <span><a href="https://github.com/nikshostudios/uni-claude-skills">github.com/nikshostudios/uni-claude-skills</a></span>
+</footer>
+
+</main>
+<script>
+document.querySelectorAll('.card .head').forEach(function(h){
+  h.addEventListener('click', function(){ h.closest('.card').classList.toggle('open'); });
+});
+function copyCmd(){
+  var t="curl -fsSL https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/main/install.sh | bash";
+  navigator.clipboard.writeText(t).then(function(){
+    var b=document.querySelector('.cmd .copy'); b.textContent='copied'; setTimeout(function(){b.textContent='copy';},1600);
+  });
+}
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>uni-claude-skills — your Claude Code toolkit for university</title>
+<title>Martin's Odyssey — your Claude Code launch kit</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -52,41 +52,84 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
   animation:drift-b 58s ease-in-out infinite alternate}
 @keyframes drift-a{to{transform:translate(9vw,7vh) scale(1.08)}}
 @keyframes drift-b{to{transform:translate(-8vw,-6vh) scale(1.06)}}
-@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
+/* ============ LAUNCH SEQUENCE ============ */
+#launch{position:fixed;inset:0;z-index:50;background:
+  radial-gradient(circle at 50% 100%, rgba(87,182,255,.08), transparent 45%), var(--canvas);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:opacity 1.1s var(--ease), visibility 1.1s}
+#launch.gone{opacity:0;visibility:hidden;pointer-events:none}
+#launch .stars{position:absolute;inset:0;overflow:hidden}
+#launch .stars i{position:absolute;width:2px;height:2px;border-radius:50%;
+  background:rgba(238,242,250,.7);opacity:0}
+#launch.go .stars i{animation:starfall 1.6s linear infinite}
+@keyframes starfall{0%{transform:translateY(-8vh);opacity:0}12%{opacity:.8}100%{transform:translateY(108vh);opacity:0}}
+.pad{position:relative;text-align:center}
+.count{font-family:var(--mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--secondary);margin-bottom:38px}
+.count b{color:var(--active);font-weight:500}
+.rocket-box{position:relative;height:240px;display:flex;align-items:flex-end;justify-content:center}
+.rocket{position:relative;will-change:transform}
+#launch.go .rocket{animation:shake .55s linear 2, liftoff 2.1s cubic-bezier(.55,0,.85,.35) 1.1s forwards}
+@keyframes shake{0%,100%{transform:translate(0,0)}25%{transform:translate(-1.5px,1px)}50%{transform:translate(1.5px,-1px)}75%{transform:translate(-1px,-1.5px)}}
+@keyframes liftoff{0%{transform:translateY(0)}100%{transform:translateY(-135vh)}}
+.flame{position:absolute;left:50%;top:100%;transform:translateX(-50%);
+  width:16px;height:0;border-radius:0 0 50% 50%;opacity:0;
+  background:linear-gradient(to bottom, #cfe9ff, var(--active) 35%, rgba(87,182,255,.05));
+  filter:blur(1.5px)}
+#launch.go .flame{animation:flame 2.65s ease-out .45s forwards}
+@keyframes flame{0%{height:0;opacity:0}15%{height:46px;opacity:1}30%{height:38px}45%{height:64px}60%{height:56px}100%{height:78px;opacity:1}}
+.glow-pad{position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);
+  width:220px;height:44px;border-radius:50%;opacity:0;
+  background:radial-gradient(ellipse, rgba(87,182,255,.55), transparent 70%);filter:blur(14px)}
+#launch.go .glow-pad{animation:padglow 2.2s ease-out .5s forwards}
+@keyframes padglow{0%{opacity:0}25%{opacity:1}80%{opacity:.9}100%{opacity:0}}
+.smoke{position:absolute;left:50%;bottom:-14px;width:10px;height:10px;border-radius:50%;
+  background:rgba(168,179,199,.28);filter:blur(6px);opacity:0}
+#launch.go .smoke{animation:puff 1.9s ease-out forwards}
+.smoke.s2{animation-delay:.9s!important}.smoke.s3{animation-delay:1.05s!important}
+.smoke.s4{animation-delay:1.2s!important}.smoke.s5{animation-delay:1.35s!important}
+@keyframes puff{0%{transform:translate(-50%,0) scale(.4);opacity:0}
+  20%{opacity:.75}100%{transform:translate(calc(-50% + var(--dx,60px)), -30px) scale(3.4);opacity:0}}
+.launch-title{margin-top:46px;font-family:var(--display);font-weight:500;letter-spacing:-.02em;
+  font-size:clamp(30px,5vw,44px);opacity:0;transform:translateY(10px)}
+.launch-title em{font-style:normal;color:var(--active)}
+#launch.go .launch-title{animation:ltitle 1s var(--ease) .2s forwards}
+@keyframes ltitle{to{opacity:1;transform:none}}
+.skip{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--secondary);opacity:.7}
+
+/* ============ PAGE ============ */
 main{position:relative;z-index:1;width:min(980px, calc(100% - 48px));margin:0 auto;padding-bottom:160px}
-
 .masthead{display:flex;justify-content:space-between;align-items:center;gap:16px;
   padding:22px 0;border-bottom:1px solid var(--line-soft);
   font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--secondary)}
 .masthead b{color:var(--active);font-weight:500}
-
-.hero{padding:clamp(64px,9vw,110px) 0 30px;text-align:center}
+.hero{padding:clamp(60px,8vw,100px) 0 30px;text-align:center}
 .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--secondary)}
 .kicker b{color:var(--active);font-weight:500}
 h1{font-family:var(--display);font-weight:500;letter-spacing:-.02em;
-  font-size:clamp(38px,6vw,62px);line-height:1.08;margin:18px auto 20px;max-width:18ch}
+  font-size:clamp(40px,6.4vw,66px);line-height:1.06;margin:18px auto 20px;max-width:16ch}
 h1 em{font-style:normal;color:var(--active)}
-.lead{color:var(--secondary);max-width:62ch;margin:0 auto;font-size:17.5px}
+.lead{color:var(--secondary);max-width:60ch;margin:0 auto;font-size:17.5px}
+.lead b{color:var(--text);font-weight:600}
 
-.install{margin:44px auto 0;max-width:760px;background:var(--surface);
+.install{margin:40px auto 0;max-width:760px;background:var(--surface);
   border:1px solid var(--line);border-radius:20px;padding:26px 28px;text-align:left;
   box-shadow:0 24px 60px -34px rgba(0,0,0,.95), inset 0 1px rgba(238,242,250,.03)}
 .install .kicker{display:block;margin-bottom:14px}
 .cmd{display:flex;align-items:center;gap:12px;background:#0a0f1a;border:1px solid var(--line);border-radius:3px;
-  padding:10px 8px 10px 16px}
-.cmd .txt{flex:1;overflow-x:auto;white-space:nowrap;font-family:var(--mono);font-size:12.5px;color:var(--text);
-  padding:5px 0}
-.cmd .copy{flex:none;
-  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  padding:10px 8px 10px 16px;margin-bottom:10px}
+.cmd:last-of-type{margin-bottom:0}
+.cmd .txt{flex:1;overflow-x:auto;white-space:nowrap;font-family:var(--mono);font-size:12.5px;color:var(--text);padding:5px 0}
+.cmd .copy{flex:none;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
   background:transparent;border:1px solid var(--line);color:var(--secondary);
   border-radius:2px;padding:7px 12px;cursor:pointer;transition:all .25s var(--ease)}
 .cmd .copy:hover{background:var(--active);border-color:var(--active);color:var(--active-ink)}
 .install .then{margin:16px 0 0;font-size:14px;color:var(--secondary)}
 .install .then code{font-family:var(--mono);font-size:12px;color:var(--active);background:rgba(87,182,255,.07);
   padding:2px 6px;border-radius:2px}
-
-.fact-strip{margin:56px auto 0;display:flex;justify-content:center;gap:clamp(18px,4vw,44px);flex-wrap:wrap;
+.fact-strip{margin:52px auto 0;display:flex;justify-content:center;gap:clamp(18px,4vw,44px);flex-wrap:wrap;
   padding-bottom:22px;border-bottom:1px solid var(--line-soft);
   font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--secondary)}
 .fact-strip b{color:var(--active);font-weight:500}
@@ -95,9 +138,29 @@ section{margin-top:clamp(72px,9vw,104px)}
 h2{font-family:var(--display);font-weight:500;letter-spacing:-.015em;
   font-size:clamp(26px,3.6vw,36px);line-height:1.15;margin:14px 0 10px;max-width:28ch}
 .sec-note{color:var(--secondary);max-width:72ch;margin:0 0 30px;font-size:15.5px}
+.sec-note b{color:var(--text)}
 
+/* day-by-day spine timeline */
+.journey{position:relative;margin-top:34px;padding-left:34px}
+.journey::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1px;
+  background:linear-gradient(to bottom, var(--active), var(--line) 85%)}
+.day{position:relative;padding:0 0 40px}
+.day:last-child{padding-bottom:0}
+.day::before{content:"";position:absolute;left:-32px;top:7px;width:11px;height:11px;border-radius:50%;
+  background:var(--canvas);border:2px solid var(--active);
+  box-shadow:0 0 14px 2px rgba(87,182,255,.35)}
+.day .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--active)}
+.day h3{font-family:var(--display);font-weight:500;font-size:21px;letter-spacing:-.01em;margin:6px 0 8px}
+.day p{margin:0 0 10px;color:var(--secondary);font-size:15px;max-width:74ch}
+.day .do{background:var(--surface);border:1px solid var(--line);border-left:2px solid var(--active);
+  border-radius:3px;padding:11px 15px;font-size:13.5px;color:var(--text);max-width:70ch}
+.day .do b{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--secondary);font-weight:500;display:block;margin-bottom:4px}
+.day .do i{font-style:italic}
+
+/* cards (arsenal) */
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media (max-width:760px){.cards{grid-template-columns:1fr}}
+@media (max-width:760px){.cards{grid-template-columns:1fr}.journey{padding-left:28px}}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:3px;
   padding:0;overflow:hidden;transition:border-color .3s var(--ease), transform .3s var(--ease)}
 .card:hover{border-color:rgba(87,182,255,.45)}
@@ -113,7 +176,9 @@ h2{font-family:var(--display);font-weight:500;letter-spacing:-.015em;
 .quote{background:rgba(87,182,255,.06);border-left:2px solid var(--active);border-radius:2px;
   padding:10px 13px;font-size:13.5px;color:var(--text);font-style:italic}
 .card .extra{margin:12px 0 0;font-size:13.5px;color:var(--secondary)}
+.card .extra code{font-family:var(--mono);font-size:12px;color:var(--active)}
 
+/* pipelines */
 .pipes{display:grid;gap:14px}
 .pipe{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px 26px;
   box-shadow:0 24px 60px -34px rgba(0,0,0,.95), inset 0 1px rgba(238,242,250,.03)}
@@ -126,6 +191,14 @@ h2{font-family:var(--display);font-weight:500;letter-spacing:-.015em;
 .arrow{color:var(--active);font-family:var(--mono);font-size:12px}
 .pipe p{margin:12px 0 0;font-size:14px;color:var(--secondary);max-width:76ch}
 
+/* repo hangar */
+.repos{display:grid;gap:10px}
+.repo{display:block;text-decoration:none;background:var(--surface);border:1px solid var(--line);
+  border-radius:3px;padding:15px 18px;transition:border-color .3s var(--ease)}
+.repo:hover{border-color:rgba(87,182,255,.45)}
+.repo .rname{font-family:var(--mono);font-size:12.5px;color:var(--active)}
+.repo .rdesc{margin-top:4px;font-size:13.5px;color:var(--secondary);line-height:1.5}
+
 .integrity{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px 30px;
   box-shadow:0 24px 60px -34px rgba(0,0,0,.95), inset 0 1px rgba(238,242,250,.03)}
 .integrity h2{margin-top:6px}
@@ -137,152 +210,122 @@ footer{margin-top:clamp(72px,9vw,104px);padding-top:22px;border-top:1px solid va
   display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
   font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--secondary)}
 footer a{color:var(--active);text-decoration:none}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  #launch{display:none}
+}
 </style>
 </head>
 <body>
+
+<!-- LAUNCH SEQUENCE -->
+<div id="launch" title="click to skip">
+  <div class="stars" id="stars"></div>
+  <div class="pad">
+    <div class="count" id="count">T-MINUS <b>3</b></div>
+    <div class="rocket-box">
+      <div class="rocket">
+        <svg width="64" height="150" viewBox="0 0 64 150" fill="none" aria-hidden="true">
+          <path d="M32 2C44 22 48 44 48 68c0 18-4 34-8 44H24c-4-10-8-26-8-44C16 44 20 22 32 2Z"
+                fill="#131a29" stroke="#57b6ff" stroke-width="2"/>
+          <circle cx="32" cy="52" r="9" fill="#0b101c" stroke="#57b6ff" stroke-width="2"/>
+          <circle cx="32" cy="52" r="3.5" fill="#57b6ff"/>
+          <path d="M16 84 4 112c8-2 14-6 12-14v-14Z" fill="#131a29" stroke="#57b6ff" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M48 84l12 28c-8-2-14-6-12-14V84Z" fill="#131a29" stroke="#57b6ff" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M24 112h16l-3 12h-10l-3-12Z" fill="#1a2334" stroke="#57b6ff" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+        <div class="flame"></div>
+      </div>
+      <div class="glow-pad"></div>
+      <div class="smoke" style="--dx:-70px"></div>
+      <div class="smoke s2" style="--dx:64px"></div>
+      <div class="smoke s3" style="--dx:-40px"></div>
+      <div class="smoke s4" style="--dx:88px"></div>
+      <div class="smoke s5" style="--dx:20px"></div>
+    </div>
+    <div class="launch-title">Martin's <em>Odyssey</em></div>
+  </div>
+  <div class="skip">click anywhere to skip</div>
+</div>
+
 <div class="orb a"></div><div class="orb b"></div>
 <main>
 
-<div class="masthead"><span><b>uni-claude-skills</b> · student toolkit</span><span>35 skills · one install</span></div>
+<div class="masthead"><span><b>martin's odyssey</b> · launch kit</span><span>38 skills · 1 vault · 7 days</span></div>
 
 <div class="hero">
-  <span class="kicker">for <b>claude code</b> at university</span>
-  <h1>Your degree, with a <em>toolkit</em> behind it.</h1>
-  <p class="lead">Thirty-five battle-tested Claude Code skills, curated for an info-systems student:
-  study pipelines, essay craft, project discipline, and front-end polish. Install once —
-  then your agent knows when to use each one.</p>
+  <span class="kicker">mission — <b>your degree, upgraded</b></span>
+  <h1>Martin's <em>Odyssey</em></h1>
+  <p class="lead">A full-stack launch kit for studying, writing, and building with Claude Code —
+  <b>38 skills, a life vault, and a seven-day flight plan</b>. Built for you by Nikhil.
+  Nothing here needs to happen at once: one small step a day, and by next week this is second nature.</p>
 
   <div class="install">
-    <span class="kicker">install — <b>one command</b></span>
-    <div class="cmd" id="cmd"><span class="txt">curl -fsSL https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/main/install.sh | bash</span><button class="copy" onclick="copyCmd()">copy</button></div>
-    <p class="then">Then open Claude Code and say: <code>Read the HANDOFF.md from the uni-claude-skills repo and walk me through my new skills.</code> Your agent takes it from there — it will interview you about your semester and demo the most relevant skill on your real work.</p>
+    <span class="kicker">launch — <b>two commands, ever</b></span>
+    <div class="cmd"><span class="txt">curl -fsSL https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/main/install.sh | bash</span><button class="copy" data-c="curl -fsSL https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/main/install.sh | bash">copy</button></div>
+    <div class="cmd"><span class="txt">curl -fsSL https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/main/install-vault.sh | bash</span><button class="copy" data-c="curl -fsSL https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/main/install-vault.sh | bash">copy</button></div>
+    <p class="then">First command = all 38 skills (Day 1). Second = your vault (Day 3 — no rush).
+    Then open Claude Code and say: <code>Read the HANDOFF.md from the uni-claude-skills repo and be my guide.</code>
+    Your agent will interview you about your semester and take it from there.</p>
   </div>
 
   <div class="fact-strip">
-    <span><b>35</b> skills</span><span><b>6</b> clusters</span><span><b>3</b> ready pipelines</span><span><b>4</b> power-ups</span>
+    <span><b>38</b> skills</span><span><b>1</b> life vault</span><span><b>7</b> day flight plan</span><span><b>0</b> overwhelm</span>
   </div>
 </div>
 
-<section id="study">
-  <span class="kicker">cluster 01 — <b>study &amp; learning</b></span>
-  <h2>Learn it properly, faster.</h2>
-  <p class="sec-note">Click any card for the exact thing to say to Claude.</p>
-  <div class="cards">
-    <div class="card"><button class="head"><span class="name">/teach</span><p class="what">Claude teaches the concept like a tutor — with checks that you actually got it.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Teach me database normalization — I have a quiz on Friday."</div>
-      <p class="extra">Runs a real teaching loop: explain → example → you try → correct. Use before exams, after confusing lectures, or when a topic won't stick.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/yt-search</span><p class="what">Find the best tutorial video on any topic without opening YouTube.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Find me the best recent videos explaining REST APIs."</div>
-      <p class="extra">Returns a ranked list with views, channel size and dates. The views-to-subscribers ratio is a hidden-gem detector.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/yt-transcript</span><p class="what">Paste a YouTube link → clean transcript + study digest with quiz questions.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">(just paste the YouTube link — that's the whole trigger)</div>
-      <p class="extra">Files a timestamped transcript into ./transcripts/, then offers a TL;DR, key concepts with timestamps, and a 5-question recall quiz.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/wait-what · /zoom-out</span><p class="what">Confused? Force a re-explanation from a different angle, or get the big picture.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"wait-what" — when an explanation didn't land. "zoom-out" — when you're lost in code details.</div>
-      <p class="extra">Two tiny skills that fix the two classic stuck-states: bad explanation, missing context.</p></div></div></div></div>
-  </div>
-</section>
+<section id="flightplan">
+  <span class="kicker">the <b>flight plan</b></span>
+  <h2>One small step a day. That's the whole trick.</h2>
+  <p class="sec-note">You don't need to learn 38 skills. You need <b>one habit per day for a week</b> — each one pays off the same day you learn it. Everything else is reference for later.</p>
 
-<section id="writing">
-  <span class="kicker">cluster 02 — <b>writing</b></span>
-  <h2>Essays that sound like you.</h2>
-  <p class="sec-note">The writing pipeline builds essays from <em>your</em> thinking — and the cleanup skills strip the AI flavor from anything drafted.</p>
-  <div class="cards">
-    <div class="card"><button class="head"><span class="name">/writing-fragments → beats → shape</span><p class="what">Three-stage essay pipeline: mine your notes, build the arc, draft with you steering.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"I have an essay due on digital privacy and a pile of rough notes — run the writing pipeline."</div>
-      <p class="extra">Fragments finds your good raw material, beats arranges it into a journey, shape drafts paragraph-by-paragraph with your approval. The result is your essay, structured — not a generated one.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/unslop · /humanizer</span><p class="what">Strip AI-sounding phrasing from any text — quick pass or deep sweep.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Unslop this discussion post" · "Run humanizer on my report intro."</div>
-      <p class="extra">Humanizer is built on Wikipedia's signs-of-AI-writing guide: kills inflated symbolism, rule-of-three, em-dash overuse, filler. For editing your writing — not for disguising work that isn't yours.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/grill-me</span><p class="what">Claude interrogates your plan or thesis until the weak spots are gone.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Grill me on my capstone proposal before I pitch it to my professor."</div>
-      <p class="extra">Relentless, specific questioning. The gaps it finds are the ones your grader would have found. /grill-with-docs also records the decisions as docs.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/creativity</span><p class="what">Research-backed brainstorming that banks ideas and never repeats itself.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"I need a creative angle for my final-year project topic."</div>
-      <p class="extra">Researches real exemplars from far-apart domains and recombines them against your problem. Every idea is banked to ./_creativity/ so next session starts where this one ended.</p></div></div></div></div>
-  </div>
-</section>
-
-<section id="projects">
-  <span class="kicker">cluster 03 — <b>project workflow</b></span>
-  <h2>Group projects, under control.</h2>
-  <p class="sec-note">The discipline cluster: turn vague project ideas into specs, tickets, and finished work — and never lose a long session again.</p>
-  <div class="cards">
-    <div class="card"><button class="head"><span class="name">/to-spec · /to-tickets · /implement</span><p class="what">Conversation → written spec → ordered tickets → methodical execution.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"We've talked enough — to-spec this, then break it into tickets."</div>
-      <p class="extra">The core delivery pipeline. Specs stop group-project scope drift; tickets make work divisible among teammates; implement executes without wandering.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/checkpoint · /claude-handoff</span><p class="what">Long session degrading? Save state and continue fresh without losing anything.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Checkpoint this session" — then paste the output into a new session.</div>
-      <p class="extra">Learn these two early. Long Claude sessions degrade; checkpoint captures every decision so a fresh session picks up mid-stride.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/wayfinder · /graph · /triage</span><p class="what">Heavy machinery: oversized work, high-stakes tasks, and issue backlogs.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"This capstone is way bigger than one session — wayfinder it."</div>
-      <p class="extra">Wayfinder maps huge work as decision tickets. Graph structures a high-stakes task as a multi-agent workflow. Triage grinds through GitHub issues/PRs in a disciplined loop.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/ask-matt · /write-a-skill</span><p class="what">Not sure which flow fits? Ask the router. Outgrown the pack? Write your own.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"ask-matt: I have a messy idea and a deadline — which skill do I use?"</div>
-      <p class="extra">ask-matt routes you to the right workflow. write-a-skill teaches Claude to build new skills — your toolkit grows with your degree.</p></div></div></div></div>
-  </div>
-</section>
-
-<section id="coding">
-  <span class="kicker">cluster 04 — <b>coding &amp; design</b></span>
-  <h2>Projects that don't look like homework.</h2>
-  <p class="sec-note">Info-systems coursework ships web apps. These make yours look and read like products.</p>
-  <div class="cards">
-    <div class="card"><button class="head"><span class="name">/frontend-design · /impeccable</span><p class="what">Distinctive UI direction + the full design/audit/polish toolkit.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Build the dashboard for my project — read frontend-design first so it doesn't look templated."</div>
-      <p class="extra">frontend-design sets aesthetic direction; impeccable audits hierarchy, spacing, accessibility, motion. Demo-day difference-makers.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/ui-styling · /ui-ux-pro-max · /design-system</span><p class="what">Component building, a searchable style database, and design tokens.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Pick me a palette and font pairing for a fintech-feeling project" (ui-ux-pro-max).</div>
-      <p class="extra">ui-styling builds shadcn/Tailwind components; ui-ux-pro-max is a local database of styles, palettes and fonts; design-system keeps multi-page projects consistent.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/improve-codebase-architecture</span><p class="what">Architecture review of your project with a visual HTML report.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Review my project's architecture before I submit — give me the visual report."</div>
-      <p class="extra">Finds structure problems and improvement opportunities. Also: /setup-ts-deep-modules wires dependency-cruiser for clean TypeScript boundaries.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/playwright-cli</span><p class="what">Browser automation and web testing from the command line.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Write Playwright tests for my web app's signup flow."</div>
-      <p class="extra">Real end-to-end tests impress graders and catch demo-day bugs before the demo.</p></div></div></div></div>
-  </div>
-</section>
-
-<section id="documents">
-  <span class="kicker">cluster 05 — <b>documents</b></span>
-  <h2>Submissions that look the part.</h2>
-  <div class="cards">
-    <div class="card"><button class="head"><span class="name">/assignment-creator</span><p class="what">Brief → polished PDF/DOCX: cover page, dot-leader TOC, Gantt charts, shaded tables.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Here's my assignment brief [attach PDF] — build the submission document from my draft answers."</div>
-      <p class="extra">Maps every rubric line to a section so nothing is missed, renders Mermaid diagrams (WBS, Gantt, risk quadrants) as real vector graphics, and produces pixel-perfect PDF plus Word. Integrity rules are built in — it formats and structures work you own.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">/to-questionnaire · /loop-me</span><p class="what">Blocked on someone else's decision? Turn it into their questionnaire.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"I can't decide the project scope without my professor — to-questionnaire it."</div>
-      <p class="extra">Produces the exact questions to send. loop-me interviews you about any workflow you wish were automated — then you build it together.</p></div></div></div></div>
-  </div>
-</section>
-
-<section id="powerups">
-  <span class="kicker">cluster 06 — <b>power-ups</b></span>
-  <h2>Beyond the pack: the bigger rig.</h2>
-  <p class="sec-note">These aren't in the one-command install — they're separate tools and plugins that level up Claude Code itself. Set them up when you're ready; your agent can walk you through each one.</p>
-  <div class="cards">
-    <div class="card"><button class="head"><span class="name">codex — a second opinion</span><p class="what">Run OpenAI's Codex (GPT) inside Claude Code to cross-check hard problems.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">setup, then say this</p><div class="quote">"Get a second opinion from codex on this bug" · "Have codex review my plan before I build."</div>
-      <p class="extra">Setup: install the Codex CLI (<code style="font-family:var(--mono);font-size:12px">npm i -g @openai/codex</code>, then <code style="font-family:var(--mono);font-size:12px">codex login</code>), then add a codex companion plugin from the Claude Code plugin marketplace (<code style="font-family:var(--mono);font-size:12px">/plugin</code>). Two different frontier models agreeing on a diagnosis is worth a lot more than one — use it when stuck, before big refactors, or to referee a design decision.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">ego lite — a real browser for your agent</span><p class="what">Claude drives an actual logged-in browser: research, form-filling, web-app QA.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">once installed, say this</p><div class="quote">"Use ego-browser to open my course portal and pull this week's readings."</div>
-      <p class="extra">ego lite is a desktop app that gives Claude isolated "task spaces" in a real browser that inherits your logins — no re-authentication, no fighting your open tabs. Great for testing your own web-app coursework end-to-end. Ask the person who gave you this pack for the app; its skill teaches your agent the rest.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">claude-mem — persistent memory</span><p class="what">Your agent remembers past sessions: decisions, findings, project state.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">why bother</p><div class="quote">"What did we decide about the database schema last week?" — and it actually knows.</div>
-      <p class="extra">A marketplace plugin (<code style="font-family:var(--mono);font-size:12px">/plugin</code> → search claude-mem) that compresses every session into searchable observations. Turns Claude from goldfish into colleague across a whole semester project.</p></div></div></div></div>
-    <div class="card"><button class="head"><span class="name">mattpocock-skills — the plugin set</span><p class="what">TDD, bug diagnosis, code review, domain modeling — the engineering discipline pack.</p></button>
-      <div class="body"><div><div class="inner"><p class="say">setup, then say this</p><div class="quote">"Use the tdd skill to build this feature test-first" · "Run diagnosing-bugs on this crash."</div>
-      <p class="extra">Several skills in this pack (grill-me, to-spec, to-tickets…) come from Matt Pocock's collection. The full plugin adds tdd, diagnosing-bugs, code-review, domain-modeling, codebase-design and more — install via <code style="font-family:var(--mono);font-size:12px">/plugin</code> from github.com/mattpocock/skills.</p></div></div></div></div>
+  <div class="journey">
+    <div class="day"><span class="tag">day 1 — ignition</span>
+      <h3>Install, and win once.</h3>
+      <p>Run the first install command. Open Claude Code anywhere and have one real conversation about the thing due soonest. That's it — no vault yet, no systems.</p>
+      <div class="do"><b>say this</b><i>"Read the HANDOFF.md from the uni-claude-skills repo and be my guide. Here's what my semester looks like…"</i></div>
+    </div>
+    <div class="day"><span class="tag">day 2 — first orbit</span>
+      <h3>Study something properly.</h3>
+      <p>Pick the topic confusing you most right now. Let Claude find the best video, pull its transcript, and teach it to you with a quiz at the end. One evening, one topic, actually learned.</p>
+      <div class="do"><b>say this</b><i>"Find me the best video on ER-diagrams, get the transcript, then teach it to me."</i> (that's /yt-search → /yt-transcript → /teach)</div>
+    </div>
+    <div class="day"><span class="tag">day 3 — the ship</span>
+      <h3>Install your vault. Get interviewed.</h3>
+      <p>Run the second install command, open the folder in Obsidian, then let Claude interview you for ten minutes — your courses, your week, your deadlines. It builds the whole vault around your answers and tells you which skills fit <em>your</em> life.</p>
+      <div class="do"><b>say this</b><i>"onboard me into my vault"</i> — inside the vault folder, after install-vault.sh</div>
+    </div>
+    <div class="day"><span class="tag">day 4 — daily rhythm</span>
+      <h3>Learn the two session habits.</h3>
+      <p>End today's work session with <b>/wrap</b> — Claude files what happened into your vault so tomorrow starts warm. And if a long session ever gets sluggish: <b>/checkpoint</b> hands it to a fresh session without losing anything. These two habits are what make everything compound.</p>
+      <div class="do"><b>say this</b><i>"wrap"</i> at the end of a session · <i>"checkpoint this"</i> when a session drags</div>
+    </div>
+    <div class="day"><span class="tag">day 5 — cargo</span>
+      <h3>Write something that sounds like you.</h3>
+      <p>Next essay or discussion post: have Claude grill your argument first, build from your own notes, then strip anything that sounds machine-made with /unslop. Your thinking, structured — not generated filler.</p>
+      <div class="do"><b>say this</b><i>"Grill me on my essay argument, then run the writing pipeline from my notes."</i></div>
+    </div>
+    <div class="day"><span class="tag">day 6 — heavy lift</span>
+      <h3>Run a project like a professional.</h3>
+      <p>Take any coding assignment or group project: spec it, split it into tickets, build methodically, then review the architecture before submitting. This is the pipeline that makes group work stop being chaos.</p>
+      <div class="do"><b>say this</b><i>"to-spec what we discussed, break it into tickets, then implement ticket one."</i></div>
+    </div>
+    <div class="day"><span class="tag">day 7 — deep space</span>
+      <h3>Pick one power-up. Ignore the rest.</h3>
+      <p>Codex second opinions, a real browser for your agent, persistent memory — pick whichever solves a problem you actually hit this week. The hangar below explains each. Everything else can wait a month.</p>
+      <div class="do"><b>say this</b><i>"Which power-up fits what I struggled with this week?"</i></div>
+    </div>
   </div>
 </section>
 
 <section id="pipelines">
   <span class="kicker">the <b>pipelines</b></span>
-  <h2>Skills compose. Start here.</h2>
+  <h2>Three chains to memorize. (Or just ask.)</h2>
   <div class="pipes">
     <div class="pipe"><span class="kicker">study a topic</span>
       <div class="chain"><span class="chip">/yt-search</span><span class="arrow">→</span><span class="chip">/yt-transcript</span><span class="arrow">→</span><span class="chip hot">/teach</span></div>
-      <p>Find the best video, pull its transcript and digest, then have the concept taught until it sticks. One evening, one topic, actually learned.</p></div>
+      <p>Find the best video, pull its transcript and digest, get taught until it sticks — then /wrap files what you learned into your vault.</p></div>
     <div class="pipe"><span class="kicker">write an essay</span>
       <div class="chain"><span class="chip">/grill-me</span><span class="arrow">→</span><span class="chip">/writing-fragments</span><span class="arrow">→</span><span class="chip">/writing-beats</span><span class="arrow">→</span><span class="chip">/writing-shape</span><span class="arrow">→</span><span class="chip hot">/unslop</span></div>
       <p>Stress-test the argument, mine your notes, build the arc, draft with you steering, then strip anything that sounds machine-made.</p></div>
@@ -292,32 +335,145 @@ footer a{color:var(--active);text-decoration:none}
   </div>
 </section>
 
+<section id="arsenal">
+  <span class="kicker">the <b>arsenal</b> — reference, not homework</span>
+  <h2>All 38, when you need them.</h2>
+  <p class="sec-note">Don't study this list. Skim it once so you know what exists, then just tell Claude what you're doing — it picks the right one. Click any card for the exact sentence to say.</p>
+  <div class="cards">
+    <div class="card"><button class="head"><span class="name">/teach</span><p class="what">Claude teaches like a tutor — with checks you actually got it.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Teach me database normalization — quiz on Friday."</div></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/yt-search · /yt-transcript · /watch</span><p class="what">Find the best video, get transcript + study digest — or watch it frame by frame.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">(paste a YouTube link — that alone triggers the transcript)</div>
+      <p class="extra">/watch goes deeper: downloads the video, extracts frames, answers questions about what's on screen — for when the slides matter, not just the words. Needs <code>yt-dlp</code> + <code>ffmpeg</code>.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/vault-onboard · /wrap</span><p class="what">The vault pair: get interviewed into your vault, then keep it alive session by session.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"onboard me into my vault" once · "wrap" at the end of every real session</div>
+      <p class="extra">Wrap writes a session digest, updates the effort you touched, and keeps your deadline radar honest. The single highest-leverage habit in this kit.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/unslop · /humanizer</span><p class="what">Strip AI-sounding phrasing — quick pass or deep sweep.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Unslop this discussion post."</div>
+      <p class="extra">For editing your writing — not for disguising work that isn't yours.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/writing-fragments → beats → shape</span><p class="what">Essay pipeline from YOUR notes: mine, arc, draft with you steering.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Essay due on digital privacy, here are my rough notes — run the writing pipeline."</div></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/grill-me · /grill-with-docs</span><p class="what">Claude interrogates your plan until the weak spots are gone.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Grill me on my capstone proposal before I pitch it."</div></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/creativity</span><p class="what">Research-backed brainstorming that banks ideas and never repeats itself.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"I need a creative angle for my final-year project topic."</div></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/to-spec · /to-tickets · /implement</span><p class="what">Conversation → spec → ordered tickets → methodical build.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"We've talked enough — to-spec this, then tickets."</div></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/checkpoint · /claude-handoff</span><p class="what">Save a degrading session's state; continue fresh without losing anything.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Checkpoint this session" — paste the output into a new one.</div></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/wayfinder · /graph · /triage</span><p class="what">Heavy machinery: oversized work, high-stakes tasks, issue backlogs.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"This capstone is bigger than one session — wayfinder it."</div></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/frontend-design · /impeccable</span><p class="what">Distinctive UI direction + full design/audit/polish toolkit.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Build my dashboard — read frontend-design first so it doesn't look templated."</div></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/ui-styling · /ui-ux-pro-max · /design-system</span><p class="what">Components, a style/palette/font database, and design tokens.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Pick a palette and font pairing that feels fintech."</div></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/improve-codebase-architecture</span><p class="what">Architecture review with a visual report — run before submitting code.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Review my project's architecture — visual report."</div></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/assignment-creator</span><p class="what">Brief → polished PDF/DOCX: cover, dot-leader TOC, Gantt, shaded tables.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"Here's my brief [attach] — build the submission doc from my draft answers."</div>
+      <p class="extra">Maps every rubric line to a section. Integrity rules built in — it formats work you own.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">/ask-matt · /write-a-skill</span><p class="what">Not sure which flow fits? Ask the router. Outgrown the pack? Write your own.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"ask-matt: messy idea, tight deadline — which skill?"</div></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">…and the rest</span><p class="what">to-questionnaire, wait-what, zoom-out, loop-me, playwright-cli, setup-ts-deep-modules…</p></button>
+      <div class="body"><div><div class="inner"><p class="say">the honest truth</p><div class="quote">You will never memorize these. Describe what you're doing; Claude reaches for the right one.</div></div></div></div></div>
+  </div>
+</section>
+
+<section id="powerups">
+  <span class="kicker">week 2+ — <b>power-ups</b></span>
+  <h2>The bigger rig, one piece at a time.</h2>
+  <p class="sec-note">Separate installs that upgrade Claude Code itself. <b>Pick one when you hit the problem it solves</b> — never all at once.</p>
+  <div class="cards">
+    <div class="card"><button class="head"><span class="name">codex — a second opinion</span><p class="what">Run OpenAI's Codex inside Claude Code to cross-check hard problems.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">setup, then say this</p><div class="quote">"Get a second opinion from codex on this bug."</div>
+      <p class="extra">Setup: <code>npm i -g @openai/codex</code>, <code>codex login</code>, then a codex companion plugin via <code>/plugin</code>. Two frontier models agreeing on a diagnosis beats one; disagreeing is where it gets interesting.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">ego lite — a real browser</span><p class="what">Claude drives an actual logged-in browser: portals, forms, web-app QA.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">once installed, say this</p><div class="quote">"Use ego-browser to open my course portal and pull this week's readings."</div>
+      <p class="extra">Desktop app with isolated "task spaces" that inherit your logins. Ask Nikhil for the app; its skill teaches your agent the rest.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">claude-mem — persistent memory</span><p class="what">Your agent remembers past sessions across the whole semester.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">why bother</p><div class="quote">"What did we decide about the schema last week?" — and it knows.</div>
+      <p class="extra">Marketplace plugin via <code>/plugin</code>. Install it the first time you wish Claude remembered something.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">mattpocock-skills — the full plugin</span><p class="what">tdd, diagnosing-bugs, code-review, domain-modeling — engineering discipline.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">setup, then say this</p><div class="quote">"Use the tdd skill to build this feature test-first."</div>
+      <p class="extra">Several pack skills come from Matt Pocock's collection; the plugin adds the rest via <code>/plugin</code> from github.com/mattpocock/skills.</p></div></div></div></div>
+  </div>
+</section>
+
+<section id="hangar">
+  <span class="kicker">someday — <b>the hangar</b></span>
+  <h2>Advanced ships. Park them for now.</h2>
+  <p class="sec-note">Five repos worth starring today and exploring in a month or three, once the basics are muscle memory. Each one is a serious upgrade in one dimension.</p>
+  <div class="repos">
+    <a class="repo" href="https://github.com/chaseai-yt/claudex-loop" target="_blank" rel="noopener">
+      <span class="rname">chaseai-yt/claudex-loop</span>
+      <p class="rdesc">Four-phase plan hardening: two AI models adversarially review and then build each other's plans — whoever built it never grades it. For when a project really matters.</p></a>
+    <a class="repo" href="https://github.com/tt-a1i/archify" target="_blank" rel="noopener">
+      <span class="rname">tt-a1i/archify</span>
+      <p class="rdesc">Beautiful, verifiable architecture / workflow / sequence diagrams as self-contained HTML with motion. Perfect for system-design coursework and project reports.</p></a>
+    <a class="repo" href="https://github.com/herdrdev/herdr" target="_blank" rel="noopener">
+      <span class="rname">herdrdev/herdr</span>
+      <p class="rdesc">A runtime for coordinating multiple coding agents. When one Claude isn't enough — big group projects, parallel workstreams.</p></a>
+    <a class="repo" href="https://github.com/firecrawl/anydoc" target="_blank" rel="noopener">
+      <span class="rname">firecrawl/anydoc</span>
+      <p class="rdesc">Convert Word, PowerPoint, Excel, PDF, EPUB → clean Markdown. Feed any course material into Claude or your vault in seconds.</p></a>
+    <a class="repo" href="https://github.com/deepseek-ai/deepseek-harness" target="_blank" rel="noopener">
+      <span class="rname">deepseek-ai/deepseek-harness</span>
+      <p class="rdesc">"Everything is a plugin" — a modular harness for building your own agent setup. The deep end of the pool; visit when you're building your own rig.</p></a>
+  </div>
+</section>
+
 <section id="integrity">
   <div class="integrity">
     <span class="kicker">the <b>ground rule</b></span>
     <h2>Tools for learning, not shortcuts past it.</h2>
-    <p><span class="good">This pack helps you</span> understand material, structure your thinking, polish your production, and manage projects like a professional.
-    <span class="bad">It will not help you</span> evade AI detectors, fabricate citations, or submit work you can't explain — assignment-creator refuses that by design.
-    If your university asks for AI-use disclosure, disclose. The point is graduating <em>smarter</em>, with a toolkit you'll still use at your first job.</p>
+    <p><span class="good">This kit helps you</span> understand material, structure your thinking, polish your production, and run projects like a professional.
+    <span class="bad">It will not help you</span> evade AI detectors, fabricate citations, or submit work you can't explain — that's built into the skills themselves.
+    If your university asks for AI-use disclosure, disclose. The goal is graduating <em>smarter</em>, with a rig you'll still use at your first job.</p>
   </div>
 </section>
 
 <footer>
-  <span>curated by nikhil · aug 2026</span>
+  <span>built for martin · by nikhil · aug 2026</span>
   <span><a href="https://github.com/nikshostudios/uni-claude-skills">github.com/nikshostudios/uni-claude-skills</a></span>
 </footer>
 
 </main>
 <script>
-document.querySelectorAll('.card .head').forEach(function(h){
-  h.addEventListener('click', function(){ h.closest('.card').classList.toggle('open'); });
-});
-function copyCmd(){
-  var t="curl -fsSL https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/main/install.sh | bash";
-  navigator.clipboard.writeText(t).then(function(){
-    var b=document.querySelector('.cmd .copy'); b.textContent='copied'; setTimeout(function(){b.textContent='copy';},1600);
+(function(){
+  var launch=document.getElementById('launch');
+  var stars=document.getElementById('stars');
+  var count=document.getElementById('count');
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var seen=false;
+  try{seen=sessionStorage.getItem('odyssey-launched')==='1'}catch(e){}
+  if(reduced||seen){launch.classList.add('gone');}
+  else{
+    for(var i=0;i<70;i++){var s=document.createElement('i');
+      s.style.left=(Math.random()*100)+'%';
+      s.style.animationDelay=(Math.random()*1.6)+'s';
+      s.style.animationDuration=(1.1+Math.random()*1.2)+'s';
+      s.style.opacity=0;stars.appendChild(s);}
+    var t=3;
+    var iv=setInterval(function(){
+      t--;
+      if(t>0){count.innerHTML='T-MINUS <b>'+t+'</b>';}
+      else{clearInterval(iv);count.innerHTML='<b>LIFTOFF</b>';launch.classList.add('go');
+        setTimeout(end,3400);}
+    },700);
+    function end(){launch.classList.add('gone');
+      try{sessionStorage.setItem('odyssey-launched','1')}catch(e){}}
+    launch.addEventListener('click',function(){clearInterval(iv);end();});
+  }
+  document.querySelectorAll('.card .head').forEach(function(h){
+    h.addEventListener('click',function(){h.closest('.card').classList.toggle('open');});
   });
-}
+  document.querySelectorAll('.cmd .copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      navigator.clipboard.writeText(b.getAttribute('data-c')).then(function(){
+        b.textContent='copied';setTimeout(function(){b.textContent='copy';},1600);});
+    });
+  });
+})();
 </script>
 </body>
 </html>

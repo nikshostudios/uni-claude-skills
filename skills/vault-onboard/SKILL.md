@@ -16,12 +16,35 @@ Tone: curious friend helping them set up, not a form. One theme at a time. React
 answers, ask the obvious follow-up. Prefer AskUserQuestion for choice-shaped questions
 and plain chat for open ones. NEVER dump all questions at once.
 
+## Two modes
+
+- **Starter-vault mode** (default): the vault came from the kit's installer —
+  `Home.md` contains `{{PLACEHOLDER}}` text. Run the interview and fill it.
+- **Existing-vault mode**: the user adopted the starter structure into a vault they
+  already had (no placeholders anywhere). Everything below applies with one change:
+  be strictly ADDITIVE — read what their vault already answers (identity notes, course
+  folders, deadline lists), ask ONLY for genuinely missing fields, and write only new
+  files or clearly-appended sections. Never rewrite, rename, or reorganize anything
+  that existed before.
+
 ## Before starting
 
-1. Confirm you're inside the vault (Home.md with `{{PLACEHOLDER}}`s exists). If not, ask
-   where the vault lives.
-2. Tell them the shape: "Five short rounds — you, your week, your commitments, your
-   goals, your tools. ~10 minutes. Everything lands in your vault as we go."
+1. Confirm you're inside the vault (Home.md exists — with `{{PLACEHOLDER}}`s → starter
+   mode; without → existing-vault mode). If no vault in sight, ask where it lives.
+2. **Privacy preamble, always:** "Your answers get saved as plain files in this vault on
+   your machine; what you type here is processed by Claude under your account's data
+   settings. Skip any question you like. Never give me passwords, ID numbers, or
+   anything you wouldn't write in a notebook."
+3. **Import intake if it exists:** read `~/.claude/uni-intake.md` (written by /guide-me
+   with consent). Anything answered there is NOT asked again. Offer to delete the file
+   once imported.
+4. **Offer two depths:**
+   - **Fast path (default, ~3 min):** three questions — name + university/program, ONE
+     active effort with its next real deadline, the most annoying recurring task. Build
+     the vault from just that; everything else stays honestly thin.
+   - **Full interview (~10-15 min):** the five rounds below. Offer as "want to go
+     deeper now or later?" — later is a fine answer; they can rerun this skill anytime
+     to enrich.
 
 ## The interview — five rounds
 
@@ -43,6 +66,9 @@ and plain chat for open ones. NEVER dump all questions at once.
 - Any projects outside coursework: side project, job applications, a club role, a
   business idea.
 - For each: what would "this went well" look like at end of semester?
+- **Dates for real:** ask for the actual known due dates (absolute, e.g. 2026-09-12)
+  and their timezone if deadlines are online. Unknown dates are recorded as
+  "unknown" — never estimated, never invented.
 
 ### Round 4 — Goals & pain
 - Top 1-3 goals for this semester, concretely.
@@ -55,7 +81,15 @@ and plain chat for open ones. NEVER dump all questions at once.
 - Obsidian experience: new or already using it?
 - How much do they want Claude proactively managing things vs. only when asked?
 
-## Then build the vault (do all of this, with Write/Edit)
+## Then build the vault (with Write/Edit — AFTER the write gate)
+
+**Write gate:** before writing anything, show a preview — the list of files you'll
+create/update with a one-line gist each — and ask "File it?". Only write on yes;
+adjust on corrections.
+
+**Path hygiene (shared rule with /wrap):** every folder/file name derived from answers
+is slugified — lowercase, letters/digits/dashes only, empty result falls back to
+`note`; resolved paths must stay inside the vault; on collision append `-2`, `-3`, …
 
 1. **Home.md** — replace every placeholder: identity line, the week (as a compact
    schedule), active efforts (linked), deadline radar (dated, nearest first).

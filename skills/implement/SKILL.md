@@ -12,3 +12,10 @@ Run typechecking regularly, single test files regularly, and the full test suite
 Once done, use /code-review to review the work.
 
 Commit your work to the current branch.
+
+## Graded work note
+
+If the work being implemented is for a graded course assignment, apply the kit's
+standing rule (see guide-me): ask once what the course's AI policy allows; unknown
+policy → default to tutoring mode (explain, review, pair) rather than producing the
+finished submittable artifact.

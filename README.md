@@ -1,31 +1,51 @@
 # Martin's Odyssey
 
-A full-stack Claude Code launch kit for university: **38 curated skills, an Obsidian
+A full-stack Claude Code launch kit for university: **39 curated skills, an Obsidian
 life-vault starter, and a seven-day flight plan**. Made for an info-systems student who
 codes and studies with Claude Code, paced so a beginner never feels overwhelmed.
 
 Start with **[the visual guide](https://nikshostudios.github.io/uni-claude-skills/)**.
 
+## Step 0 — before anything
+
+Install [Claude Code](https://claude.com/claude-code) and log in; check with
+`claude --version`. The commands below are for the macOS/Linux terminal. On Windows,
+run them inside WSL (`wsl --install` once from an admin PowerShell, reboot, then use
+the WSL terminal — note Obsidian on Windows reads WSL files via `\\wsl$\...`, or keep
+your vault on the Windows side under `/mnt/c/...`). Never paste passwords into any
+chat.
+
 ## Install
 
 **1. The skills (Day 1):**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/main/install.sh | bash
+t=$(mktemp -d) && curl -fsSLo $t/i.sh https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.0/install.sh && bash $t/i.sh && rm -rf $t
 ```
-All 38 skills land in `~/.claude/skills/`. Never overwrites existing skills
-(`--force` from a clone if you want that).
+All 39 skills land in `~/.claude/skills/`, staged then activated per skill. Existing
+same-name skills are never touched (`--force` replaces them, backing the old copies up
+to `~/.claude/uni-claude-skills-backups/` first). A receipt of kit-owned skills is
+written to `~/.claude/uni-claude-skills-receipt.txt` — review it before ever deleting
+anything. Prefer to read code before running it? Clone this repo and run
+`bash install.sh --local`.
 
 **2. The vault (Day 3, no rush):**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/main/install-vault.sh | bash
+t=$(mktemp -d) && curl -fsSLo $t/v.sh https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.0/install-vault.sh && bash $t/v.sh && rm -rf $t
 ```
-Installs an Obsidian starter vault at `~/MyVault` (pass another path as an argument).
-Open it in Obsidian, run `claude` inside it, and say **"onboard me into my vault"**.
-A ten-minute interview builds the vault around your actual life and ends with
-personalized skill recommendations.
+Installs an Obsidian starter vault at `~/MyVault`. Want a different folder? Use this
+complete form instead (the target goes inside the same command):
+```bash
+t=$(mktemp -d) && curl -fsSLo $t/v.sh https://raw.githubusercontent.com/nikshostudios/uni-claude-skills/v1.0.0/install-vault.sh && bash $t/v.sh ~/Uni && rm -rf $t
+```
+Open the vault in Obsidian, run `claude` inside it, and say
+**"onboard me into my vault"** — three questions by default, a deeper interview only
+if you opt in, and nothing is written without a preview and your yes.
+**Already keep an Obsidian vault?** Skip this installer: open Claude Code inside your
+vault and say "adopt the starter structure" — `/guide-me` previews what's missing,
+copies only that, and never touches your notes.
 
-**Then, in Claude Code:**
-> Read the HANDOFF.md from the uni-claude-skills repo and be my guide.
+**Then, in Claude Code, type:**
+> /guide-me
 
 ## The seven-day flight plan
 
@@ -33,16 +53,17 @@ One small habit a day. Full detail on the [visual guide](https://nikshostudios.g
 
 | Day | Step | You say |
 |---|---|---|
-| 1 | Install + one real win on your nearest deadline | "…be my guide. Here's my semester…" |
-| 2 | Study pipeline on your most confusing topic | "Find the best video on X, transcript, teach me" |
+| 1 | Install + one real win on your nearest deadline | `/guide-me` |
+| 2 | Get taught your most confusing topic (zero deps) | "Teach me X, here are my notes" |
 | 3 | Install vault + get interviewed | "onboard me into my vault" |
 | 4 | The two session habits | "wrap" · "checkpoint this" |
 | 5 | First essay through the writing pipeline | "Grill my argument, then writing pipeline" |
 | 6 | A project run like a professional | "to-spec this, tickets, implement" |
 | 7 | Pick ONE power-up | "Which power-up fits my week?" |
 
-## What's inside (38 skills, six clusters)
+## What's inside (39 skills, seven clusters)
 
+- **Router:** `guide-me` (the front door: orientation, routing, pacing, dependency doctor)
 - **Study:** `teach` · `yt-search` · `yt-transcript` · `watch` · `wait-what` · `zoom-out`
 - **Vault:** `vault-onboard` · `wrap` (+ the `vault-starter/` shell with its own CLAUDE.md)
 - **Writing:** `unslop` · `humanizer` · `writing-fragments` · `writing-beats` · `writing-shape`
@@ -81,9 +102,10 @@ Skills tell you what's missing when you run them — install on demand.
 ## Academic integrity
 
 These tools help you **learn, think, plan, and produce** — not misrepresent authorship.
-No AI-detector evasion, no fabricated citations, no submitting work you can't explain;
-`assignment-creator` refuses that by design. Disclose AI use where your university
-requires it.
+No AI-detector evasion, no fabricated citations, no submitting work (prose OR code) you
+can't explain. `assignment-creator` works from material you wrote and asks about your
+course's AI policy; unknown policy defaults the kit to tutoring mode. Disclose AI use
+where your university requires it.
 
 ## Credits
 

@@ -79,6 +79,19 @@ Or open **[the visual guide](https://nikshostudios.github.io/uni-claude-skills/)
 |---|---|
 | `assignment-creator` | Brief → polished PDF/DOCX with TOC, diagrams, tables |
 
+## Power-ups (separate installs, worth it)
+
+Not part of the pack — plugins and tools that upgrade Claude Code itself:
+
+- **codex second opinion** — `npm i -g @openai/codex` + `codex login`, then add a codex
+  companion plugin via `/plugin`. Cross-check hard bugs and big decisions with GPT.
+- **ego lite** — desktop app that gives Claude a real logged-in browser (task spaces).
+  Ask the person who gave you this pack.
+- **claude-mem** — persistent memory across sessions, via `/plugin`.
+- **mattpocock-skills plugin** — adds `tdd`, `diagnosing-bugs`, `code-review`,
+  `domain-modeling` and more: [mattpocock/skills](https://github.com/mattpocock/skills).
+- **Built-ins** — run `/code-review` and `/security-review` before submitting code.
+
 ## Optional dependencies
 
 Most skills need nothing. A few want tools you may already have:

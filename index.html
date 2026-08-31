@@ -159,7 +159,7 @@ footer a{color:var(--active);text-decoration:none}
   </div>
 
   <div class="fact-strip">
-    <span><b>35</b> skills</span><span><b>5</b> clusters</span><span><b>3</b> ready pipelines</span><span><b>0</b> logins needed</span>
+    <span><b>35</b> skills</span><span><b>6</b> clusters</span><span><b>3</b> ready pipelines</span><span><b>4</b> power-ups</span>
   </div>
 </div>
 
@@ -253,6 +253,26 @@ footer a{color:var(--active);text-decoration:none}
     <div class="card"><button class="head"><span class="name">/to-questionnaire · /loop-me</span><p class="what">Blocked on someone else's decision? Turn it into their questionnaire.</p></button>
       <div class="body"><div><div class="inner"><p class="say">say this</p><div class="quote">"I can't decide the project scope without my professor — to-questionnaire it."</div>
       <p class="extra">Produces the exact questions to send. loop-me interviews you about any workflow you wish were automated — then you build it together.</p></div></div></div></div>
+  </div>
+</section>
+
+<section id="powerups">
+  <span class="kicker">cluster 06 — <b>power-ups</b></span>
+  <h2>Beyond the pack: the bigger rig.</h2>
+  <p class="sec-note">These aren't in the one-command install — they're separate tools and plugins that level up Claude Code itself. Set them up when you're ready; your agent can walk you through each one.</p>
+  <div class="cards">
+    <div class="card"><button class="head"><span class="name">codex — a second opinion</span><p class="what">Run OpenAI's Codex (GPT) inside Claude Code to cross-check hard problems.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">setup, then say this</p><div class="quote">"Get a second opinion from codex on this bug" · "Have codex review my plan before I build."</div>
+      <p class="extra">Setup: install the Codex CLI (<code style="font-family:var(--mono);font-size:12px">npm i -g @openai/codex</code>, then <code style="font-family:var(--mono);font-size:12px">codex login</code>), then add a codex companion plugin from the Claude Code plugin marketplace (<code style="font-family:var(--mono);font-size:12px">/plugin</code>). Two different frontier models agreeing on a diagnosis is worth a lot more than one — use it when stuck, before big refactors, or to referee a design decision.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">ego lite — a real browser for your agent</span><p class="what">Claude drives an actual logged-in browser: research, form-filling, web-app QA.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">once installed, say this</p><div class="quote">"Use ego-browser to open my course portal and pull this week's readings."</div>
+      <p class="extra">ego lite is a desktop app that gives Claude isolated "task spaces" in a real browser that inherits your logins — no re-authentication, no fighting your open tabs. Great for testing your own web-app coursework end-to-end. Ask the person who gave you this pack for the app; its skill teaches your agent the rest.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">claude-mem — persistent memory</span><p class="what">Your agent remembers past sessions: decisions, findings, project state.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">why bother</p><div class="quote">"What did we decide about the database schema last week?" — and it actually knows.</div>
+      <p class="extra">A marketplace plugin (<code style="font-family:var(--mono);font-size:12px">/plugin</code> → search claude-mem) that compresses every session into searchable observations. Turns Claude from goldfish into colleague across a whole semester project.</p></div></div></div></div>
+    <div class="card"><button class="head"><span class="name">mattpocock-skills — the plugin set</span><p class="what">TDD, bug diagnosis, code review, domain modeling — the engineering discipline pack.</p></button>
+      <div class="body"><div><div class="inner"><p class="say">setup, then say this</p><div class="quote">"Use the tdd skill to build this feature test-first" · "Run diagnosing-bugs on this crash."</div>
+      <p class="extra">Several skills in this pack (grill-me, to-spec, to-tickets…) come from Matt Pocock's collection. The full plugin adds tdd, diagnosing-bugs, code-review, domain-modeling, codebase-design and more — install via <code style="font-family:var(--mono);font-size:12px">/plugin</code> from github.com/mattpocock/skills.</p></div></div></div></div>
   </div>
 </section>
 

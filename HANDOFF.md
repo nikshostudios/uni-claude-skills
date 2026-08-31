@@ -99,6 +99,36 @@ Session management — teach the user these two early, they save real pain:
   user to follow their university's AI policy. Frame it as a *production and formatting*
   tool for work the user owns and understands.
 
+## Power-ups (NOT installed by the pack — teach these when the user is ready)
+
+These are separate tools/plugins that upgrade Claude Code itself. Don't dump them on the
+user day one; introduce each when a real need appears:
+
+- **codex (second opinion).** When you're stuck on a bug, or a decision is high-stakes,
+  a second frontier model cross-checking you is genuinely valuable. Setup: user installs
+  the Codex CLI (`npm i -g @openai/codex`, `codex login` — needs a ChatGPT account),
+  then adds a codex companion plugin via `/plugin`. After that, when the user says "get
+  a second opinion" or you hit a wall, delegate the investigation to codex and compare
+  answers. Two models agreeing = high confidence; disagreeing = the interesting case,
+  dig in.
+- **ego lite (real browser automation).** A desktop app giving you isolated "task
+  spaces" in a real browser that inherits the user's logins. Once installed, its
+  `ego-browser` skill teaches you the API. Use it for: testing the user's web-app
+  coursework end-to-end, pulling readings from course portals, any logged-in web chore.
+  The user should ask the friend who gave them this pack for the app. Until then, plain
+  WebFetch/WebSearch covers read-only research.
+- **claude-mem (persistent memory).** Marketplace plugin that compresses each session
+  into searchable observations — you remember decisions across a whole semester project.
+  Install via `/plugin`. Suggest it the first time the user asks "what did we do last
+  time?"
+- **mattpocock-skills (full plugin).** This pack vendors several of Matt Pocock's skills;
+  the full plugin adds `tdd`, `diagnosing-bugs`, `code-review`, `domain-modeling`,
+  `codebase-design`, `prototype`, `research` and more — the engineering-discipline set.
+  Install via `/plugin` from github.com/mattpocock/skills. Suggest `tdd` the first time
+  they build something non-trivial, `diagnosing-bugs` on the first nasty crash.
+- **Built-in reviews.** Claude Code ships `/code-review` and `/security-review` — run
+  them before the user submits any coding assignment.
+
 ## Dependencies (install on demand, not upfront)
 
 - `yt-dlp` → yt-search, yt-transcript (`brew install yt-dlp`)
